@@ -1,0 +1,48 @@
+# REUSE.toml
+# Part of ReuseLicensing
+
+version = 1
+
+# project artifacts and tooling
+[[annotations]]
+path = [
+    ".gitattributes",
+    ".gitignore",
+    ".github/**",
+    ".vscode/**",
+    ".*.yml",
+    ".drone.star",
+    "CITATION.bib",
+    "CODEOWNERS",
+    ".JuliaFormatter.toml",
+    "Project.toml",
+    "Manifest.toml",
+    "docs/make.jl",
+    "docs/Project.toml",
+    "docs/Manifest.toml",
+    "test/Project.toml",
+    "test/Manifest.toml",
+]
+precedence = "closest"
+SPDX-FileCopyrightText = "2026 Guido Wolf Reichert <gwr@bsl-support.de>"
+SPDX-License-Identifier = "CC0-1.0"
+
+# documentation assets
+[[annotations]]
+path = [
+    "docs/src/assets/**",
+]
+precedence = "closest"
+SPDX-FileCopyrightText = "2026 Guido Wolf Reichert <gwr@bsl-support.de>"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+# documentation source texts
+[[annotations]]
+path = [
+    "README.md",
+    "docs/*.md",
+    "docs/src/**/*.md",
+]
+precedence = "closest"
+SPDX-FileCopyrightText = "2026 Guido Wolf Reichert <gwr@bsl-support.de>"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
