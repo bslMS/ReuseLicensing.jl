@@ -1,3 +1,19 @@
+# Julia package manifests are usually not committed for packages.
 /Manifest*.toml
 /docs/Manifest*.toml
+/test/Manifest*.toml
+
+# Documentation build output.
 /docs/build/
+
+# Coverage and profiling output.
+*.jl.cov
+*.jl.*.cov
+*.jl.mem
+*.jl.*.mem
+
+# Local editor settings.
+.vscode/settings.json
+
+# macOS filesystem metadata.
+.DS_Store
