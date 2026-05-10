@@ -8,7 +8,6 @@ The full license texts for the licenses used in this project are located in
 the LICENSES/ directory.
 
 This file is only a pointer for repository hosts, package registries, and users
-who expect a top-level LICENSE file. It is not itself the license text for the
-whole project.
+who expect a top-level LICENSE file. It does not declare a single license for the whole project and is not itself a license text.
 
 See https://reuse.software/ for more information about the REUSE specification.
