@@ -1,8 +1,8 @@
 <h1>
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/src/assets/reuse-licensing-logo-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="docs/src/assets/reuse-licensing-logo-light.svg">
-    <img src="docs/src/assets/reuse-licensing-logo-light.svg" alt="Reuse Licensing logo" width="56">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/src/assets/logo-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="docs/src/assets/logo.svg">
+    <img src="docs/src/assets/logo.svg" alt="Reuse Licensing logo" width="56">
   </picture>
   ReuseLicensing.jl
 </h1>
