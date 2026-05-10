@@ -3,6 +3,6 @@
 
 module ReuseLicensing
 
-# Write your package code here.
+include("spdx/types.jl")
 
 end
