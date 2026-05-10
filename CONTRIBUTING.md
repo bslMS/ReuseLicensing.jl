@@ -7,10 +7,15 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 ReuseLicensing.jl is currently developed as a controlled early-stage project.
 
-The preferred forms of contribution at this stage are issue reports, failing test
-cases, documentation corrections, and small, well-scoped improvements. Pull requests are
-considered selectively. Larger changes, new APIs, or architectural changes should be
-discussed in an issue before implementation.
+The preferred forms of contribution at this stage are:
+
+- issue reports
+- failing test cases
+- documentation corrections
+- small, well-scoped improvements
+
+Pull requests are considered selectively. Larger changes, new APIs, or architectural
+changes should be discussed in an issue before implementation.
 
 All contributions must fit the technical scope, licensing policy, and long-term
 direction of the project. Pull requests may be accepted at the sole discretion of
@@ -59,9 +64,9 @@ When modifying existing files, follow the existing licensing domain of the file.
 
 ## REUSE compliance
 
-This project follows the REUSE specification. All new files must include appropriate SPDX
-licensing information, either as file headers or, where necessary, through `.license`
-sidecar files or `REUSE.toml`.
+This project follows the [REUSE specification](https://reuse.software/spec/). All new
+files must include appropriate SPDX licensing information, either as file headers or, where
+necessary, through `.license` sidecar files or `REUSE.toml`.
 
 Do not add files with unclear or missing copyright or licensing information.
 
@@ -74,9 +79,9 @@ public documentation when changing public APIs.
 
 Pull requests that only reformat code should not also change functionality.
 Conversely, functional changes should avoid unrelated formatting churn. Julia code should
-follow the formatting configuration used in this repository. The intended style is
-[SciML-style formatting](https://domluna.github.io/JuliaFormatter.jl/stable/sciml_style/)
-via JuliaFormatter.jl.
+follow the formatting configuration used in this repository. The intended style follows the
+[SciML Style Guide for Julia](https://docs.sciml.ai/SciMLStyle/) and is enforced via
+JuliaFormatter.jl using `style = "sciml"`.
 
 ## Assets and third-party material
 
