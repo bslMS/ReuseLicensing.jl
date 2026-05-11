@@ -7,7 +7,7 @@
 using Dates: Dates
 using CodecZlib: GzipDecompressorStream
 using Downloads: Downloads
-using JSON3: JSON3
+using JSON: JSON
 using SHA: sha256
 using Tar: Tar
 using TOML: TOML
@@ -80,7 +80,7 @@ tarball_url(ref::AbstractString) = "$SPDX_API_REPO/tarball/$ref"
 
 function fetch_json(url::AbstractString)
     path = Downloads.download(url)
-    return JSON3.read(read(path, String))
+    return JSON.parse(read(path, String))
 end
 
 function latest_release_ref()
@@ -296,8 +296,8 @@ function update_snapshot(; ref::AbstractString, commit::AbstractString)
         text_src = joinpath(repo_dir, "text")
         staged_text_dir = joinpath(staged_data_dir, "text")
 
-        licenses_json = JSON3.read(read(licenses_src, String))
-        exceptions_json = JSON3.read(read(exceptions_src, String))
+        licenses_json = JSON.parse(read(licenses_src, String))
+        exceptions_json = JSON.parse(read(exceptions_src, String))
         ids = spdx_text_ids(licenses_json, exceptions_json)
         text_paths = Dict{String,String}()
         for id in ids
