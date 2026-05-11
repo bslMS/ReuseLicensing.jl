@@ -36,7 +36,7 @@ Pkg.add(url = "https://github.com/bslMS/ReuseLicensing.jl")
 The source code and issue tracker are available in the
 [GitHub repository](https://github.com/bslMS/ReuseLicensing.jl).
 
-## API reference
+## Index
 
 ```@index
 ```

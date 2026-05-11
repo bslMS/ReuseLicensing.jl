@@ -3,6 +3,17 @@
 
 # SPDX License List metadata.
 
+"""
+    SPDXLicenseInfo
+
+Metadata for a current SPDX license identifier.
+
+# Fields
+
+- `id::String`: canonical SPDX license identifier spelling.
+- `is_osi_approved::Bool`: whether SPDX marks the license as OSI approved.
+- `is_fsf_libre::Bool`: whether SPDX marks the license as FSF libre.
+"""
 struct SPDXLicenseInfo
     id::String
     is_osi_approved::Bool
