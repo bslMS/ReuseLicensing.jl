@@ -22,6 +22,8 @@ path = [
     "docs/Manifest.toml",
     "test/Project.toml",
     "test/Manifest.toml",
+    "scripts/Project.toml",
+    "scripts/Manifest.toml",
 ]
 precedence = "closest"
 SPDX-FileCopyrightText = "2026 Guido Wolf Reichert <gwr@bsl-support.de>"
@@ -29,20 +31,22 @@ SPDX-License-Identifier = "CC0-1.0"
 
 # documentation assets
 [[annotations]]
-path = [
-    "docs/src/assets/**",
-]
+path = ["docs/src/assets/**"]
 precedence = "closest"
 SPDX-FileCopyrightText = "2026 Guido Wolf Reichert <gwr@bsl-support.de>"
 SPDX-License-Identifier = "CC-BY-SA-4.0"
 
 # documentation source texts
 [[annotations]]
-path = [
-    "README.md",
-    "docs/*.md",
-    "docs/src/**/*.md",
-]
+path = ["README.md", "docs/*.md", "docs/src/**/*.md"]
 precedence = "closest"
 SPDX-FileCopyrightText = "2026 Guido Wolf Reichert <gwr@bsl-support.de>"
 SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+# spdx/license-list-data
+# source: https://github.com/spdx/license-list-data
+[[annotations]]
+path = "data/spdx-license-list-data/**"
+precedence = "closest"
+SPDX-FileCopyrightText = "SPDX contributors to the SPDX License List"
+SPDX-License-Identifier = "CC0-1.0"

@@ -4,5 +4,6 @@
 module ReuseLicensing
 
 include("spdx/types.jl")
+include("spdx/generated/snapshot.jl")
 
 end
