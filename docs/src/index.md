@@ -4,9 +4,11 @@ CurrentModule = ReuseLicensing
 
 # ReuseLicensing.jl
 
-`ReuseLicensing.jl` provides core infrastructure for working with REUSE- and SPDX-based licensing metadata in Julia projects.
+`ReuseLicensing.jl` provides core infrastructure for working with REUSE- and SPDX-based licensing metadata in [Julia programming language](https://julialang.org/) projects.
 
-The package is developed by BSL Management Support as part of a broader commitment to transparent open source infrastructure, clear licensing metadata, and responsible software stewardship.
+The package is developed by [BSL Management Support](https://bsl-support.de) as part of a
+broader commitment to transparent open source infrastructure, clear licensing
+metadata, responsible software stewardship, and practical software independence.
 
 ## Scope
 
@@ -18,7 +20,7 @@ The package is developed by BSL Management Support as part of a broader commitme
 - consuming `reuse lint --json` output for project-level license analysis,
 - supporting license integrity checks and reporting workflows.
 
-The package is general Julia infrastructure. It is not specific to BSL's modeling and simulation work.
+The package is general Julia infrastructure. It is not specific to BSL Management Support's modeling and simulation work.
 
 ## Status
 
@@ -38,9 +40,3 @@ The source code and issue tracker are available in the
 
 ```@index
 ```
-
-<!--
-```@autodocs
-Modules = [ReuseLicensing]
-```
--->
