@@ -20,6 +20,20 @@ struct SPDXLicenseInfo
     is_fsf_libre::Bool
 end
 
+# SPDX Tokens and TokenStream for the tokenizer.
+
+struct SPDXToken
+    kind::Symbol
+    text::String
+end
+
+mutable struct SPDXTokenStream
+    tokens::Vector{SPDXToken}
+    pos::Int
+end
+
+SPDXTokenStream(tokens::Vector{SPDXToken}) = SPDXTokenStream(tokens, 1)
+
 # SPDX Abstract Syntax Tree for parsing expressions.
 
 abstract type AbstractSPDXLicenseExpression end
@@ -60,16 +74,4 @@ struct SPDXConjunctiveExpression{
 } <: AbstractSPDXCompositeLicenseExpression
     left::L
     right::R
-end
-
-# SPDX Tokens and TokenStream for the tokenizer.
-
-struct SPDXToken
-    kind::Symbol
-    text::String
-end
-
-mutable struct SPDXTokenStream
-    tokens::Vector{SPDXToken}
-    pos::Int
 end

@@ -13,8 +13,10 @@ export spdx_license_exception_text_path, spdx_license_exception_text
 export canonical_spdx_license_id, canonical_spdx_license_exception_id
 export is_spdx_osi_approved, is_spdx_osi_approved
 
+# SPDX core functions
 include("spdx/types.jl")
 include("spdx/generated/snapshot.jl")
 include("spdx/snapshot.jl")
+include("spdx/tokenizer.jl")
 
 end
