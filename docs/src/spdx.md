@@ -2,29 +2,55 @@
 CurrentModule = ReuseLicensing
 ```
 
-# SPDX Snapshot
+# SPDX Core
 
-```@contents
-Pages = ["spdx.md"]
+ReuseLicensing.jl provides the package's core SPDX functionality: parsing SPDX
+license expressions, collecting referenced identifiers, and using a checked-in
+snapshot of the [SPDX License List Data](https://github.com/spdx/license-list-data)
+for lookup and bundled license texts.
+
+## SPDX license expressions
+
+[SPDX license expressions](https://spdx.github.io/spdx-spec/v2.3/SPDX-license-expressions/) can be parsed into a compact result object that contains
+the normalized expression string, referenced SPDX license identifiers, referenced
+exception identifiers, and `LicenseRef-*` identifiers.
+
+```@example spdx-parsing
+using ReuseLicensing
+
+parsed = parse_spdx_expression("(MIT OR Apache-2.0) AND LicenseRef-Custom.1")
+parsed.expression
 ```
 
-ReuseLicensing.jl includes a checked-in snapshot of the
-[SPDX License List Data](https://github.com/spdx/license-list-data).
+```@example spdx-parsing
+sort(collect(parsed.licenses))
+```
 
-## SPDX license information
+```@example spdx-parsing
+sort(collect(parsed.licenserefs))
+```
 
-Accessor functions are available to query SPDX license information.
+Legacy SPDX license identifiers with current replacements are normalized by
+default. Pass `legacy = :error` to reject them instead.
+
+```@example spdx-parsing
+parse_spdx_expression("GPL-2.0+").expression
+```
 
 ```@docs
-SPDXLicenseInfo
+ParsedSPDXExpression
+parse_spdx_expression
+```
+
+## SPDX license data
+
+Accessor functions are available to query SPDX license information and canonical
+identifier spellings.
+
+```@docs
 spdx_license_list_version
-spdx_license_info
-is_spdx_license_id
-is_deprecated_spdx_license_id
 is_spdx_osi_approved
 is_spdx_fsf_libre
-is_spdx_license_exception_id
-is_deprecated_spdx_license_exception_id
 canonical_spdx_license_id
 canonical_spdx_license_exception_id
 ```

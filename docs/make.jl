@@ -22,6 +22,6 @@ makedocs(;
     ),
     pages = [
         "Home" => "index.md",
-        "SPDX Snapshot" => "spdx.md",
+        "SPDX Core" => "spdx.md",
     ]
 )

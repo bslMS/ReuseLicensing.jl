@@ -3,17 +3,7 @@
 
 # SPDX License List metadata.
 
-"""
-    SPDXLicenseInfo
-
-Metadata for a current SPDX license identifier.
-
-# Fields
-
-- `id::String`: canonical SPDX license identifier spelling.
-- `is_osi_approved::Bool`: whether SPDX marks the license as OSI approved.
-- `is_fsf_libre::Bool`: whether SPDX marks the license as FSF libre.
-"""
+# Metadata for a current SPDX license identifier.
 struct SPDXLicenseInfo
     id::String
     is_osi_approved::Bool
@@ -74,4 +64,30 @@ struct SPDXConjunctiveExpression{
 } <: AbstractSPDXCompositeLicenseExpression
     left::L
     right::R
+end
+
+"""
+    ParsedSPDXExpression{T<:AbstractSPDXLicenseExpression}
+
+Result of [`parse_spdx_expression`](@ref).
+
+Fields:
+- `ast::T`: The parsed SPDX abstract syntax tree.
+- `expression::String`: The normalized SPDX expression string reconstructed from `ast`.
+- `licenses::Set{String}`: Set of referenced SPDX license identifiers used for license-text lookup.
+- `exceptions::Set{String}`: Set of referenced SPDX license exception identifiers.
+- `licenserefs::Set{String}`: Set of lowercase `LicenseRef` identifiers used for lookup.
+"""
+struct ParsedSPDXExpression{T <: AbstractSPDXLicenseExpression}
+    ast::T
+    expression::String
+    licenses::Set{String}
+    exceptions::Set{String}
+    licenserefs::Set{String} # lowercase identifier payloads for lookup
+end
+
+# Construct the public parsed-expression wrapper and derive cached identifier sets.
+function ParsedSPDXExpression(ast::T) where {T <: AbstractSPDXLicenseExpression}
+    expression, licenses, exceptions, licenserefs = render_and_collect_spdx(ast)
+    return ParsedSPDXExpression{T}(ast, expression, licenses, exceptions, licenserefs)
 end
