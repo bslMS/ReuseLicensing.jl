@@ -21,6 +21,7 @@ makedocs(;
         "⋅ Built with [Documenter.jl](https://github.com/JuliaDocs/Documenter.jl)."
     ),
     pages = [
-        "Home" => "index.md"
+        "Home" => "index.md",
+        "SPDX Core" => "spdx.md",
     ]
 )
