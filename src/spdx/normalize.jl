@@ -78,3 +78,8 @@ function normalize_spdx_license_identifier(identifier::AbstractString; legacy)
         ))
     end
 end
+
+# Return the SPDX license identifier without a trailing `+` operator.
+function base_license_identifier(identifier::AbstractString)
+    endswith(identifier, "+") ? String(chop(identifier)) : String(identifier)
+end

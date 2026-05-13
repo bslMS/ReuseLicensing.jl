@@ -1,0 +1,85 @@
+# SPDX-FileCopyrightText: 2026 Guido Wolf Reichert <gwr@bsl-support.de>
+# SPDX-License-Identifier: EUPL-1.2+
+
+# Generic simple-license approval predicate to be implemented for concrete policies.
+function _license_is_approved(
+        policy::AbstractExpressionApprovalPolicy,
+        expr::AbstractSPDXSimpleLicenseExpression,
+)
+    throw(ArgumentError(
+        "Cannot evaluate approval for simple SPDX expression type " *
+        "$(typeof(expr)) under policy type $(typeof(policy))."
+    ))
+end
+
+function _license_is_approved(policy::AnyOf, expr::AbstractSPDXSimpleLicenseExpression)
+    for pol in policy.policies
+        _license_is_approved(pol, expr) && return true
+    end
+    return false
+end
+
+function _license_is_approved(policy::AllOf, expr::AbstractSPDXSimpleLicenseExpression)
+    for pol in policy.policies
+        _license_is_approved(pol, expr) || return false
+    end
+    return true
+end
+
+function _license_is_approved(::OSIApproved, expr::SPDXLicenseId)
+    return is_spdx_osi_approved(base_license_identifier(expr.identifier))
+end
+
+function _license_is_approved(::FSFLibre, expr::SPDXLicenseId)
+    return is_spdx_fsf_libre(base_license_identifier(expr.identifier))
+end
+
+# Custom licenses cannot be verified from snapshot metadata.
+_license_is_approved(::OSIApproved, expr::SPDXLicenseRef) = false
+_license_is_approved(::FSFLibre, expr::SPDXLicenseRef) = false
+
+function _has_approved_license_path(
+        expr::AbstractSPDXSimpleLicenseExpression,
+        policy::AbstractExpressionApprovalPolicy
+)
+    return _license_is_approved(policy, expr)
+end
+
+function _has_approved_license_path(
+        expr::SPDXDisjunctiveExpression,
+        policy::AbstractExpressionApprovalPolicy
+)
+    return _has_approved_license_path(expr.left, policy) ||
+           _has_approved_license_path(expr.right, policy)
+end
+
+function _has_approved_license_path(
+        expr::SPDXConjunctiveExpression,
+        policy::AbstractExpressionApprovalPolicy
+)
+    return _has_approved_license_path(expr.left, policy) &&
+           _has_approved_license_path(expr.right, policy)
+end
+
+# Conservatively, we cannot deduce approval for a license with an exception.
+function _has_approved_license_path(
+        expr::SPDXWithExceptionExpression,
+        policy::AbstractExpressionApprovalPolicy
+)
+    return false
+end
+
+function has_approved_license_path(
+        parsed::ParsedSPDXExpression,
+        policy::AbstractExpressionApprovalPolicy
+)
+    return _has_approved_license_path(parsed.ast, policy)
+end
+
+function has_approved_license_path(
+        expr::AbstractString,
+        policy::AbstractExpressionApprovalPolicy;
+        legacy = :normalize
+)
+    return has_approved_license_path(parse_spdx_expression(expr; legacy), policy)
+end
