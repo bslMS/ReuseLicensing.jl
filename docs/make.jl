@@ -23,5 +23,6 @@ makedocs(;
     pages = [
         "Home" => "index.md",
         "SPDX Core" => "spdx.md",
+        "Approval Layers" => "approval.md"
     ]
 )

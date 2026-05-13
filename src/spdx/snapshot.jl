@@ -16,12 +16,16 @@ function spdx_license_info(identifier::AbstractString)
 end
 
 # Return whether `identifier` is a current SPDX license identifier.
-is_spdx_license_id(identifier::AbstractString) = haskey(
-    SPDX_LICENSES, _normalize_identifier(identifier))
+function is_spdx_license_id(identifier::AbstractString)
+    haskey(
+        SPDX_LICENSES, _normalize_identifier(identifier))
+end
 
 # Return whether `identifier` is a deprecated SPDX license identifier.
-is_deprecated_spdx_license_id(identifier::AbstractString) = haskey(
-    SPDX_DEPRECATED_LICENSES, _normalize_identifier(identifier))
+function is_deprecated_spdx_license_id(identifier::AbstractString)
+    haskey(
+        SPDX_DEPRECATED_LICENSES, _normalize_identifier(identifier))
+end
 
 """
     canonical_spdx_license_id(identifier; include_deprecated = false)
@@ -63,12 +67,16 @@ function canonical_spdx_license_exception_id(
 end
 
 # Return whether `identifier` is a current SPDX license exception identifier.
-is_spdx_license_exception_id(identifier::AbstractString) = haskey(
-    SPDX_LICENSE_EXCEPTIONS, _normalize_identifier(identifier))
+function is_spdx_license_exception_id(identifier::AbstractString)
+    haskey(
+        SPDX_LICENSE_EXCEPTIONS, _normalize_identifier(identifier))
+end
 
 # Return whether `identifier` is a deprecated SPDX license exception identifier.
-is_deprecated_spdx_license_exception_id(identifier::AbstractString) = haskey(
-    SPDX_DEPRECATED_LICENSE_EXCEPTIONS, _normalize_identifier(identifier))
+function is_deprecated_spdx_license_exception_id(identifier::AbstractString)
+    haskey(
+        SPDX_DEPRECATED_LICENSE_EXCEPTIONS, _normalize_identifier(identifier))
+end
 
 """
     is_spdx_osi_approved(identifier)

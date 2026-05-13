@@ -1,9 +1,6 @@
 # SPDX-FileCopyrightText: 2026 Guido Wolf Reichert <gwr@bsl-support.de>
 # SPDX-License-Identifier: EUPL-1.2+
 
-# License text files are stored under the base identifier, without trailing `+`.
-base_license_identifier(id::String) = endswith(id, "+") ? String(chop(id)) : id
-
 # Operator precedence used when re-rendering SPDX expressions.
 precedence(::SPDXLicenseId) = 4
 precedence(::SPDXLicenseRef) = 4
