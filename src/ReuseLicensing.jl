@@ -25,8 +25,12 @@ include("spdx/tokenizer.jl")
 include("spdx/render_collect.jl")
 include("spdx/parser.jl")
 
-# Expression approval functions
+# Expression approval
 include("approval/types.jl")
 include("approval/predicates.jl")
+
+# File evaluation
+include("file/types.jl")
+include("file/evlauate.jl")
 
 end
