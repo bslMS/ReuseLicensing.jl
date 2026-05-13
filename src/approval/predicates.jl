@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2026 Guido Wolf Reichert <gwr@bsl-support.de>
 # SPDX-License-Identifier: EUPL-1.2+
 
-# Generic simple-license approval predicate to be implemented for concrete policies.
+# Internal simple-license approval predicate for concrete policies.
 function _license_is_approved(
         policy::AbstractExpressionApprovalPolicy,
         expr::AbstractSPDXSimpleLicenseExpression,
@@ -69,6 +69,16 @@ function _has_approved_license_path(
     return false
 end
 
+"""
+    has_approved_license_path(expr, policy; legacy = :normalize)
+
+Return whether an SPDX license expression has at least one license path approved
+by `policy`.
+
+String inputs are parsed with [`parse_spdx_expression`](@ref). `OR` expressions
+require one approved branch; `AND` expressions require all branches. `WITH`
+expressions are currently treated conservatively as not approved.
+"""
 function has_approved_license_path(
         parsed::ParsedSPDXExpression,
         policy::AbstractExpressionApprovalPolicy

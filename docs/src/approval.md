@@ -4,32 +4,106 @@ CurrentModule = ReuseLicensing
 
 # Approval Layers
 
+ReuseLicensing separates license approval into layers. The lowest layer works
+only on SPDX license expressions. Later layers can build on that result when
+checking file metadata and complete repositories.
+
 ## Expression-Level Approval
 
-Explain that this layer is file-agnostic and repository-agnostic.
+Expression-level approval answers one narrow question: does an SPDX license
+expression contain at least one licensing path accepted by a policy?
 
-## Approval Policies
+This layer is deliberately agnostic about files, file contents, copyright
+statements, license text placement, and repository layout. It only evaluates the
+normalized SPDX expression tree returned by [`parse_spdx_expression`](@ref).
 
-Document:
+### Approval Policies
 
-- `OSIApproved()`
-- `FSFLibre()`
-- `AnyOf(...)`
-- `AllOf(...)`
+Approval is policy-dependent. ReuseLicensing currently provides metadata-backed
+policies based on the checked-in SPDX snapshot:
 
-## Approved License Paths
+- [`OSIApproved`](@ref): accepts SPDX license identifiers marked as OSI approved.
+- [`FSFLibre`](@ref): accepts SPDX license identifiers marked as FSF libre.
 
-Explain the core semantics:
+Policies can be combined:
+
+- [`AnyOf`](@ref): accepts a simple license expression when at least one nested
+  policy accepts it.
+- [`AllOf`](@ref): accepts a simple license expression only when every nested
+  policy accepts it.
+
+### Approved License Paths
+
+The main predicate is [`has_approved_license_path`](@ref). For composite SPDX
+expressions it follows the structure of the expression:
 
 - `A OR B`: approved if either branch has an approved path
 - `A AND B`: approved if both branches are approved
-- `LicenseRef-*`: not approved by SPDX metadata policies
-- `WITH`: currently conservatively rejected
+- `LicenseRef-*`: not approved by SPDX metadata-backed policies
+- `A WITH exception`: currently treated conservatively as not approved
 
-## Examples
+The name "license path" is intentional. For an `OR` expression, an expression can
+be approved even when one branch is not accepted, as long as another branch
+provides an accepted path.
 
-Show:
+### Examples
 
-```julia
+An expression with two OSI-approved licenses is accepted:
+
+```@example approval
+using ReuseLicensing
+
 has_approved_license_path("MIT OR Apache-2.0", OSIApproved())
 ```
+
+For `OR`, one accepted branch is enough:
+
+```@example approval
+has_approved_license_path("MIT OR LicenseRef-Internal", OSIApproved())
+```
+
+For `AND`, all branches must be accepted:
+
+```@example approval
+has_approved_license_path("MIT AND LicenseRef-Internal", OSIApproved())
+```
+
+Policies can be composed when a project accepts more than one approval source:
+
+```@example approval
+policy = AnyOf(OSIApproved(), FSFLibre())
+
+has_approved_license_path("CC0-1.0 OR 0BSD", policy)
+```
+
+`WITH` expressions are parsed, but approval is intentionally conservative for
+now:
+
+```@example approval
+has_approved_license_path(
+    "GPL-2.0-only WITH Classpath-exception-2.0",
+    OSIApproved(),
+)
+```
+
+### API Reference
+
+```@docs
+has_approved_license_path
+OSIApproved
+FSFLibre
+AnyOf
+AllOf
+```
+
+## File-Level Approval
+
+File-level approval is planned as a separate layer. It will build on
+expression-level approval and add file metadata concerns such as discovered SPDX
+license expressions, source of the metadata, and file-specific issues.
+
+## Repository-Level Approval
+
+Repository-level approval is planned as an aggregation layer over file-level
+results and repository checks such as REUSE lint output and required license
+texts.
