@@ -31,6 +31,6 @@ include("approval/predicates.jl")
 
 # File evaluation
 include("file/types.jl")
-include("file/evlauate.jl")
+include("file/evaluate.jl")
 
 end

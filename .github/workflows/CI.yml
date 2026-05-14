@@ -24,13 +24,11 @@ jobs:
       matrix:
         version:
           - '1.10'
-          # Re-enable before release:
-          # - 'pre'
+          - '1'
         os:
           - ubuntu-latest
-          # Re-enable before release
-          # - macOS-latest
-          # - windows-latest
+          - macOS-latest
+          - windows-latest
     steps:
       - uses: actions/checkout@v6
       - uses: julia-actions/setup-julia@v3
