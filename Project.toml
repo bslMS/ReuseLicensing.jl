@@ -1,0 +1,7 @@
+name = "ReuseLicensing"
+uuid = "de4d323f-34a2-45c1-b1df-90653b04f4ca"
+authors = ["Guido Wolf Reichert <gwr@bsl-support.de>"]
+version = "0.1.0"
+
+[compat]
+julia = "1.10"
