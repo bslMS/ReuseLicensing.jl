@@ -1,0 +1,3 @@
+# Keep checksum-covered snapshot inputs byte-stable across platforms.
+data/spdx-license-list-data/** text eol=lf
+
