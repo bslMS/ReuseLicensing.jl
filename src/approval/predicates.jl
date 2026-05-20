@@ -4,7 +4,7 @@
 # Internal simple-license approval predicate for concrete policies.
 function _license_is_approved(
         policy::AbstractExpressionApprovalPolicy,
-        expr::AbstractSPDXSimpleLicenseExpression,
+        expr::AbstractSPDXSimpleLicenseExpression
 )
     throw(ArgumentError(
         "Cannot evaluate approval for simple SPDX expression type " *
@@ -34,9 +34,23 @@ function _license_is_approved(::FSFLibre, expr::SPDXLicenseId)
     return is_spdx_fsf_libre(base_license_identifier(expr.identifier))
 end
 
+# General registry accepts OSI-approved licenses for code.
+function _license_is_approved(::GeneralRegistryCodeApproval, expr::SPDXLicenseId)
+    return _license_is_approved(OSIApproved(), expr)
+end
+
+# General registry will accept a subset of FSF libre approved content licenses.
+function _license_is_approved(::GeneralRegistryContentApproval, expr::SPDXLicenseId)
+    return expr.identifier in ("CC0-1.0", "CC-BY-4.0", "CC-BY-SA-4.0")
+end
+
 # Custom licenses cannot be verified from snapshot metadata.
 _license_is_approved(::OSIApproved, expr::SPDXLicenseRef) = false
 _license_is_approved(::FSFLibre, expr::SPDXLicenseRef) = false
+
+# Custom licenses are not approved by Julia's General registry.
+_license_is_approved(::GeneralRegistryCodeApproval, expr::SPDXLicenseRef) = false
+_license_is_approved(::GeneralRegistryContentApproval, expr::SPDXLicenseRef) = false
 
 function _has_approved_license_path(
         expr::AbstractSPDXSimpleLicenseExpression,
@@ -51,6 +65,22 @@ function _has_approved_license_path(
 )
     return _has_approved_license_path(expr.left, policy) ||
            _has_approved_license_path(expr.right, policy)
+end
+
+# General Registry will conservatively not reason for conjunctions.
+function _has_approved_license_path(
+        expr::SPDXConjunctiveExpression,
+        policy::GeneralRegistryCodeApproval
+)
+    return false
+end
+
+# General Registry will conservatively not reason for conjunctions.
+function _has_approved_license_path(
+        expr::SPDXConjunctiveExpression,
+        policy::GeneralRegistryContentApproval
+)
+    return false
 end
 
 function _has_approved_license_path(

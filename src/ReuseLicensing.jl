@@ -12,7 +12,7 @@ export canonical_spdx_license_id, canonical_spdx_license_exception_id
 export is_spdx_osi_approved, is_spdx_fsf_libre
 
 # Expression approval exports
-export OSIApproved, FSFLibre
+export OSIApproved, FSFLibre, GeneralRegistryCodeApproval, GeneralRegistryContentApproval
 export AllOf, AnyOf
 export has_approved_license_path
 
