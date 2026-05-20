@@ -5,7 +5,7 @@ CurrentModule = ReuseLicensing
 # Approval Layers
 
 ReuseLicensing separates license approval into layers. The lowest layer works
-only on SPDX license expressions. Later layers can build on that result when
+only on SPDX license expressions. Later layers will build on that result when
 checking file metadata and complete repositories.
 
 ## Expression-Level Approval
@@ -24,6 +24,8 @@ policies based on the checked-in SPDX snapshot:
 
 - [`OSIApproved`](@ref): accepts SPDX license identifiers marked as OSI approved.
 - [`FSFLibre`](@ref): accepts SPDX license identifiers marked as FSF libre.
+- [`GeneralRegistryCodeApproval`](@ref): accepts OSI-approved package-code license paths without conjunctions.
+- [`GeneralRegistryContentApproval`](@ref): accepts selected non-code content licenses, currently `CC0-1.0`, `CC-BY-4.0`, and `CC-BY-SA-4.0`.
 
 Policies can be combined:
 
@@ -37,14 +39,21 @@ Policies can be combined:
 The main predicate is [`has_approved_license_path`](@ref). For composite SPDX
 expressions it follows the structure of the expression:
 
-- `A OR B`: approved if either branch has an approved path
-- `A AND B`: approved if both branches are approved
-- `LicenseRef-*`: not approved by SPDX metadata-backed policies
-- `A WITH exception`: currently treated conservatively as not approved
+- `A OR B`: approved if either branch has an approved path (disjunction).
+- `A AND B`: approved if both branches are approved (conjunction).
+- `LicenseRef-*`: not approved by SPDX metadata-backed policies.
+- `A WITH exception`: currently treated conservatively as not approved.
 
 The name "license path" is intentional. For an `OR` expression, an expression can
 be approved even when one branch is not accepted, as long as another branch
 provides an accepted path.
+
+!!! note "General Registry policies"
+    [`GeneralRegistryCodeApproval`](@ref) and [`GeneralRegistryContentApproval`](@ref)
+    currently do not approve conjunctions of license identifiers. This is a
+    stricter registry-oriented rule than the generic expression-level semantics
+    used by policies such as [`OSIApproved`](@ref) and [`FSFLibre`](@ref), where
+    an `AND` expression is approved when all branches are approved.
 
 ### Examples
 
@@ -56,13 +65,28 @@ using ReuseLicensing
 has_approved_license_path("MIT OR Apache-2.0", OSIApproved())
 ```
 
+The generic [`OSIApproved`](@ref) policy also accepts a conjunction when all
+branches are OSI-approved:
+
+```@example approval
+has_approved_license_path("MIT AND Apache-2.0", OSIApproved())
+```
+
+The stricter [`GeneralRegistryCodeApproval`](@ref) policy does not approve such
+conjunctions as package-code license paths:
+
+```@example approval
+has_approved_license_path("MIT AND Apache-2.0", GeneralRegistryCodeApproval())
+```
+
 For `OR`, one accepted branch is enough:
 
 ```@example approval
 has_approved_license_path("MIT OR LicenseRef-Internal", OSIApproved())
 ```
 
-For `AND`, all branches must be accepted:
+Under the generic expression-level semantics, an `AND` expression is rejected if
+one branch is not approved:
 
 ```@example approval
 has_approved_license_path("MIT AND LicenseRef-Internal", OSIApproved())
@@ -92,6 +116,8 @@ has_approved_license_path(
 has_approved_license_path
 OSIApproved
 FSFLibre
+GeneralRegistryCodeApproval
+GeneralRegistryContentApproval
 AnyOf
 AllOf
 ```
