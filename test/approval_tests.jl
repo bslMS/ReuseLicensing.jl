@@ -92,48 +92,48 @@ end
     )
 end
 
-@testitem "General registry approval" begin
+@testitem "more conservative approval regimes" begin
     # Can be approved.
-    @test has_approved_license_path("MIT", GeneralRegistryCodeApproval())
-    @test has_approved_license_path("CC0-1.0", GeneralRegistryContentApproval())
-    @test has_approved_license_path("CC-BY-4.0", GeneralRegistryContentApproval())
-    @test has_approved_license_path("CC-BY-SA-4.0", GeneralRegistryContentApproval())
+    @test has_approved_license_path("MIT", UnconjoinedOSIApproval())
+    @test has_approved_license_path("CC0-1.0", OpenContentApproval())
+    @test has_approved_license_path("CC-BY-4.0", OpenContentApproval())
+    @test has_approved_license_path("CC-BY-SA-4.0", OpenContentApproval())
     @test has_approved_license_path(
         "CC-BY-4.0 OR CC0-1.0 OR CC-BY-SA-4.0",
-        GeneralRegistryContentApproval()
+        OpenContentApproval()
     )
     @test has_approved_license_path(
         "MIT OR LicenseRef-US-Public-Domain",
-        GeneralRegistryCodeApproval()
+        UnconjoinedOSIApproval()
     )
     @test has_approved_license_path(
         "MIT AND EUPL-1.2 OR Apache-2.0",
-        GeneralRegistryCodeApproval()
+        UnconjoinedOSIApproval()
     )
     # Can not be approved.
     @test !has_approved_license_path(
         "GPL-3.0-only AND MIT",
-        GeneralRegistryCodeApproval()
+        UnconjoinedOSIApproval()
     )
-    @test !has_approved_license_path("CC0-1.0", GeneralRegistryCodeApproval())
+    @test !has_approved_license_path("CC0-1.0", UnconjoinedOSIApproval())
     @test !has_approved_license_path(
         "GPL-2.0-only WITH Classpath-exception-2.0",
-        GeneralRegistryCodeApproval()
+        UnconjoinedOSIApproval()
     )
     @test !has_approved_license_path(
         "LicenseRef-Internal",
-        GeneralRegistryCodeApproval()
+        UnconjoinedOSIApproval()
     )
     @test !has_approved_license_path(
         "CC-BY-SA-3.0 OR GFDL-1.3-or-later",
-        GeneralRegistryContentApproval()
+        OpenContentApproval()
     )
     @test !has_approved_license_path(
         "CC0-1.0 AND CC-BY-4.0",
-        GeneralRegistryContentApproval()
+        OpenContentApproval()
     )
     @test !has_approved_license_path(
         "LicenseRef-Internal",
-        GeneralRegistryContentApproval()
+        OpenContentApproval()
     )
 end
