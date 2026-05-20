@@ -43,38 +43,44 @@ AllOf(policies::AbstractExpressionApprovalPolicy...) = AllOf(policies)
 AnyOf(policies::AbstractExpressionApprovalPolicy...) = AnyOf(policies)
 
 """
-    GeneralRegistryCodeApproval()
+    UnconjoinedOSIApproval()
 
-Approval policy for Julia package source code intended for acceptance by the
-General registry.
+Approval policy for OSI-approved license paths without conjunctions.
 
-This policy models the registry-relevant question whether the package code that users
-load, precompile, compile, and depend on has an acceptable OSI-approved licensing path.
+This policy is useful when an expression is expected to provide at least one clear
+OSI-approved license path, rather than a conjunctive set of simultaneously applicable
+license obligations.
 
 The policy accepts single OSI-approved SPDX license identifiers and `OR` expressions
-with at least one acceptable OSI-approved branch. It deliberately does not treat
-conjunctive `AND` expressions as approved package-code licenses, even if all conjuncts
-are individually OSI-approved. Such expressions may be valid SPDX expressions for file
-sets or combined distributions, but they do not represent a clean license path for
-ordinary package-code acceptance.
+with at least one acceptable OSI-approved branch. It deliberately does not approve
+conjunctive `AND` expressions, even if all conjuncts are individually OSI-approved.
+Such expressions may be valid SPDX expressions for file sets or combined distributions,
+but they are not accepted by this stricter path-oriented policy.
 """
-struct GeneralRegistryCodeApproval <: AbstractExpressionApprovalPolicy end
+struct UnconjoinedOSIApproval <: AbstractExpressionApprovalPolicy end
 
 """
-    GeneralRegistryContentApproval()
+    OpenContentApproval()
 
-Approval policy for non-code repository content intended to coexist with Julia packages
-accepted by the General registry.
+Approval policy for selected open-content and public-domain-style licenses.
 
-This policy models acceptable licensing for documentation, examples, metadata,
-configuration files, assets, and other non-code material in a REUSE/SPDX-aware
-repository. It is intended to complement [`GeneralRegistryCodeApproval`](@ref),
-which applies to the package source code that users load and depend on.
+This policy is useful for documentation, examples, metadata, configuration files,
+assets, and other non-code material in REUSE/SPDX-aware repositories. It is intended
+as a reusable content-licensing building block and can be combined with software
+license policies such as [`UnconjoinedOSIApproval`](@ref) where a broader file-level
+approval rule is needed.
 
-The policy accepts common open-content and public-domain-style licenses such as
-`CC0-1.0`, `CC-BY-4.0`, and `CC-BY-SA-4.0`, which are approved by FSF,
-[Debian](https://wiki.debian.org/DFSGLicenses#DFSG-compatible_Licenses),
-[Fedora](https://docs.fedoraproject.org/en-US/legal/allowed-licenses/), and the
-[Eclipse](https://www.eclipse.org/legal/licenses/) Foundation.
+The policy accepts selected open-content and public-domain-style licenses such as
+`CC0-1.0`, `CC-BY-4.0`, and `CC-BY-SA-4.0`. These licenses are accepted by major
+free/open-source policy references, including the FSF, Debian, Fedora, and the
+Eclipse Foundation:
+
+- [FSF](https://www.gnu.org/licenses/license-list.html)
+- [Debian](https://wiki.debian.org/DFSGLicenses#DFSG-compatible_Licenses)
+- [Fedora](https://docs.fedoraproject.org/en-US/legal/allowed-licenses/)
+- [Eclipse Foundation](https://www.eclipse.org/legal/licenses/)
+
+The accepted set is intentionally narrow and does not include non-commercial or
+no-derivatives Creative Commons variants.
 """
-struct GeneralRegistryContentApproval <: AbstractExpressionApprovalPolicy end
+struct OpenContentApproval <: AbstractExpressionApprovalPolicy end

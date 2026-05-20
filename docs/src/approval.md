@@ -24,8 +24,8 @@ policies based on the checked-in SPDX snapshot:
 
 - [`OSIApproved`](@ref): accepts SPDX license identifiers marked as OSI approved.
 - [`FSFLibre`](@ref): accepts SPDX license identifiers marked as FSF libre.
-- [`GeneralRegistryCodeApproval`](@ref): accepts OSI-approved package-code license paths without conjunctions.
-- [`GeneralRegistryContentApproval`](@ref): accepts selected non-code content licenses, currently `CC0-1.0`, `CC-BY-4.0`, and `CC-BY-SA-4.0`.
+- [`UnconjoinedOSIApproval`](@ref): accepts OSI-approved package-code license paths without conjunctions.
+- [`OpenContentApproval`](@ref): accepts selected non-code content licenses, currently `CC0-1.0`, `CC-BY-4.0`, and `CC-BY-SA-4.0`.
 
 Policies can be combined:
 
@@ -48,10 +48,10 @@ The name "license path" is intentional. For an `OR` expression, an expression ca
 be approved even when one branch is not accepted, as long as another branch
 provides an accepted path.
 
-!!! note "General Registry policies"
-    [`GeneralRegistryCodeApproval`](@ref) and [`GeneralRegistryContentApproval`](@ref)
+!!! note "Stricter Approval Policies"
+    [`UnconjoinedOSIApproval`](@ref) and [`OpenContentApproval`](@ref)
     currently do not approve conjunctions of license identifiers. This is a
-    stricter registry-oriented rule than the generic expression-level semantics
+    stricter rule than the generic expression-level semantics
     used by policies such as [`OSIApproved`](@ref) and [`FSFLibre`](@ref), where
     an `AND` expression is approved when all branches are approved.
 
@@ -72,11 +72,11 @@ branches are OSI-approved:
 has_approved_license_path("MIT AND Apache-2.0", OSIApproved())
 ```
 
-The stricter [`GeneralRegistryCodeApproval`](@ref) policy does not approve such
+The stricter [`UnconjoinedOSIApproval`](@ref) policy does not approve such
 conjunctions as package-code license paths:
 
 ```@example approval
-has_approved_license_path("MIT AND Apache-2.0", GeneralRegistryCodeApproval())
+has_approved_license_path("MIT AND Apache-2.0", UnconjoinedOSIApproval())
 ```
 
 For `OR`, one accepted branch is enough:
@@ -116,8 +116,8 @@ has_approved_license_path(
 has_approved_license_path
 OSIApproved
 FSFLibre
-GeneralRegistryCodeApproval
-GeneralRegistryContentApproval
+UnconjoinedOSIApproval
+OpenContentApproval
 AnyOf
 AllOf
 ```

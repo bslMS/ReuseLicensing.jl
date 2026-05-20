@@ -34,13 +34,13 @@ function _license_is_approved(::FSFLibre, expr::SPDXLicenseId)
     return is_spdx_fsf_libre(base_license_identifier(expr.identifier))
 end
 
-# General registry accepts OSI-approved licenses for code.
-function _license_is_approved(::GeneralRegistryCodeApproval, expr::SPDXLicenseId)
+# UnconjoinedOSIApproval accepts OSI-approved licenses for code.
+function _license_is_approved(::UnconjoinedOSIApproval, expr::SPDXLicenseId)
     return _license_is_approved(OSIApproved(), expr)
 end
 
-# General registry will accept a subset of FSF libre approved content licenses.
-function _license_is_approved(::GeneralRegistryContentApproval, expr::SPDXLicenseId)
+# OpenContentApproval will accept a subset of FSF libre approved content licenses.
+function _license_is_approved(::OpenContentApproval, expr::SPDXLicenseId)
     return expr.identifier in ("CC0-1.0", "CC-BY-4.0", "CC-BY-SA-4.0")
 end
 
@@ -48,9 +48,9 @@ end
 _license_is_approved(::OSIApproved, expr::SPDXLicenseRef) = false
 _license_is_approved(::FSFLibre, expr::SPDXLicenseRef) = false
 
-# Custom licenses are not approved by Julia's General registry.
-_license_is_approved(::GeneralRegistryCodeApproval, expr::SPDXLicenseRef) = false
-_license_is_approved(::GeneralRegistryContentApproval, expr::SPDXLicenseRef) = false
+# Custom licenses are not approved by conservative regimes.
+_license_is_approved(::UnconjoinedOSIApproval, expr::SPDXLicenseRef) = false
+_license_is_approved(::OpenContentApproval, expr::SPDXLicenseRef) = false
 
 function _has_approved_license_path(
         expr::AbstractSPDXSimpleLicenseExpression,
@@ -67,18 +67,18 @@ function _has_approved_license_path(
            _has_approved_license_path(expr.right, policy)
 end
 
-# General Registry will conservatively not reason for conjunctions.
+# In conservative acceptance regimes we will not reason for conjunctions.
 function _has_approved_license_path(
         expr::SPDXConjunctiveExpression,
-        policy::GeneralRegistryCodeApproval
+        policy::UnconjoinedOSIApproval
 )
     return false
 end
 
-# General Registry will conservatively not reason for conjunctions.
+# In conservative acceptance regimes we will not reason for conjunctions.
 function _has_approved_license_path(
         expr::SPDXConjunctiveExpression,
-        policy::GeneralRegistryContentApproval
+        policy::OpenContentApproval
 )
     return false
 end
