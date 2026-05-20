@@ -14,6 +14,7 @@ updates:
     directories:
       - "/"
       - "/docs"
+      - "/scripts"
       - "/test"
     schedule:
       interval: "weekly"
