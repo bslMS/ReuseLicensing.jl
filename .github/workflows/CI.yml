@@ -61,11 +61,3 @@ jobs:
           use_oidc: true
           fail_ci_if_error: false
           slug: bslMS/ReuseLicensing.jl
-  reuse:
-    name: REUSE compliance
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@v6
-      - uses: fsfe/reuse-action@v6

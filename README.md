@@ -11,7 +11,7 @@
 [![Build Status](https://github.com/bslMS/ReuseLicensing.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/bslMS/ReuseLicensing.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Codecov](https://codecov.io/gh/bslMS/ReuseLicensing.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/bslMS/ReuseLicensing.jl)
 [![SciML Code Style](https://img.shields.io/static/v1?label=code%20style&message=SciML&color=9558b2&labelColor=389826)](https://github.com/SciML/SciMLStyle)
-[![REUSE status](https://img.shields.io/badge/REUSE-compliant-brightgreen.svg)](https://reuse.software/)
+[![REUSE](https://github.com/bslMS/ReuseLicensing.jl/actions/workflows/reuse.yml/badge.svg?branch=main)](https://github.com/bslMS/ReuseLicensing.jl/actions/workflows/reuse.yml?query=branch%3Amain)
 
 <p align="center">
   <a href="https://reuse.software/spec/">REUSE Specification</a> ·
@@ -35,7 +35,7 @@ This package is under active development, and public APIs may still change.
 
 ```julia
 using Pkg
-Pkg.add(url = "https://github.com/bslMS/ReuseLicensing.jl")
+Pkg.add("ReuseLicensing")
 ```
 
 <!-- PkgTemplates: REUSE licensing section start -->

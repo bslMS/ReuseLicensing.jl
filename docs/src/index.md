@@ -30,7 +30,7 @@ The package is in early active development. APIs may still change while the core
 
 ```julia
 using Pkg
-Pkg.add(url = "https://github.com/bslMS/ReuseLicensing.jl")
+Pkg.add("ReuseLicensing")
 ```
 
 The source code and issue tracker are available in the
