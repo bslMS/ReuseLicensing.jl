@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: 2026 Guido Wolf Reichert <gwr@bsl-support.de>
+SPDX-FileCopyrightText: 2026 Guido Wolf Reichert <gwr@bsl-support.de> and contributors
 SPDX-License-Identifier: CC-BY-SA-4.0
 -->
 
@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Relicensed project infrastructure files to `0BSD`.
 
 
 ## [0.1.3] - 2026-05-23

@@ -3,7 +3,7 @@
 
 version = 1
 
-# project artifacts and tooling
+# project infrastructure
 [[annotations]]
 path = [
     ".gitattributes",
@@ -26,8 +26,8 @@ path = [
     "scripts/Manifest.toml",
 ]
 precedence = "closest"
-SPDX-FileCopyrightText = "NONE"
-SPDX-License-Identifier = "CC0-1.0"
+SPDX-FileCopyrightText = "2026 Guido Wolf Reichert <gwr@bsl-support.de> and contributors"
+SPDX-License-Identifier = "0BSD"
 
 # documentation assets
 [[annotations]]
