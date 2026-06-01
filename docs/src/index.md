@@ -36,6 +36,19 @@ Pkg.add("ReuseLicensing")
 The source code and issue tracker are available in the
 [GitHub repository](https://github.com/bslMS/ReuseLicensing.jl).
 
+## REUSE Specification Version
+
+ReuseLicensing records the REUSE specification version it is based on.
+
+```@docs
+reuse_specification_version()
+```
+
+```@example version
+using ReuseLicensing
+reuse_specification_version()
+```
+
 ## Index
 
 ```@index

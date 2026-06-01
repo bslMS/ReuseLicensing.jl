@@ -84,3 +84,14 @@ The accepted set is intentionally narrow and does not include non-commercial or
 no-derivatives Creative Commons variants.
 """
 struct OpenContentApproval <: AbstractExpressionApprovalPolicy end
+
+"""
+    ValidSPDX()
+
+Null-level approval policy that accepts any valid SPDX license expression.
+
+This policy checks only SPDX syntax and identifier validity. It does not make a
+legal, compatibility, Free Software, Open Source, registry, or project-specific
+approval judgment.
+"""
+struct ValidSPDX <: AbstractExpressionApprovalPolicy end

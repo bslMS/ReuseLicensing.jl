@@ -110,6 +110,12 @@ has_approved_license_path(
 )
 ```
 
+Use `ValidSPDX` to allow for arbitrary SPDX license expressions as long as they are valid:
+
+```@example approval
+has_approved_license_path("MIT AND LicenseRef-Internal", ValidSPDX())
+```
+
 ### API Reference
 
 ```@docs
@@ -120,6 +126,7 @@ UnconjoinedOSIApproval
 OpenContentApproval
 AnyOf
 AllOf
+ValidSPDX
 ```
 
 ## File-Level Approval

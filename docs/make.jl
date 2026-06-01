@@ -33,5 +33,7 @@ makedocs(;
         "Home" => "index.md",
         "SPDX Core" => "spdx.md",
         "Approval Layers" => "approval.md",
+        "Package Licensing" => "package.md"
     ]
+
 )

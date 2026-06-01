@@ -1,9 +1,27 @@
-This project follows the REUSE specification for copyright and licensing
-information. The authoritative copyright and licensing information is provided by SPDX
-notices in individual files and, where applicable, by REUSE.toml.
+Copyright © 2026 Guido Wolf Reichert and contributors
 
-The primary source code for the package is licensed under the European Union Public Licence v1.2 or later (below). The full license texts for the licenses used in this project are located in the LICENSES/ directory. See https://reuse.software/ for more
-information about the REUSE specification.
+This package is made available under the following package-level outbound license
+expression:
+
+    EUPL-1.2+
+
+The corresponding license text is included below. Additional license texts used
+for file-level licensing are stored in LICENSES/.
+
+This repository follows the REUSE specification for file-level copyright and
+licensing information. Authoritative file-level copyright and licensing
+information is provided by SPDX notices in individual files, by REUSE.toml where
+applicable, and by the corresponding license texts in LICENSES/.
+
+The package-level copyright notice and license statement do not replace, weaken,
+or override file-level SPDX copyright or license notices. Documentation,
+documentation assets, generated project metadata, project infrastructure files,
+or other non-code files may carry separate file-level license expressions.
+
+Additional release-time licensing evidence, where provided, may be stored under
+.licensing/.
+
+-------------------------------------------------------------------------------
 
 EUROPEAN UNION PUBLIC LICENCE v. 1.2
 EUPL © the European Union 2007, 2016

@@ -3,13 +3,13 @@
 
 version = 1
 
-# project infrastructure
 [[annotations]]
 path = [
     ".gitattributes",
     ".gitignore",
     ".github/**",
     ".vscode/**",
+    ".licensing/**",
     ".*.yml",
     ".drone.star",
     "CITATION.bib",
@@ -28,25 +28,32 @@ path = [
 precedence = "closest"
 SPDX-FileCopyrightText = "2026 Guido Wolf Reichert <gwr@bsl-support.de> and contributors"
 SPDX-License-Identifier = "0BSD"
+SPDX-FileComment = "This file is generated, project metadata, or other project infrastructure."
 
-# documentation assets
 [[annotations]]
 path = ["docs/src/assets/**"]
 precedence = "closest"
 SPDX-FileCopyrightText = "2026 Guido Wolf Reichert <gwr@bsl-support.de> and contributors"
 SPDX-License-Identifier = "CC-BY-SA-4.0"
+SPDX-FileComment = "This file is content for the documentation."
 
-# documentation source texts
 [[annotations]]
 path = ["README.md", "docs/*.md", "docs/src/**/*.md"]
 precedence = "closest"
 SPDX-FileCopyrightText = "2026 Guido Wolf Reichert <gwr@bsl-support.de> and contributors"
 SPDX-License-Identifier = "CC-BY-SA-4.0"
+SPDX-FileComment = "This file is a documentation source file."
 
-# spdx/license-list-data
-# source: https://github.com/spdx/license-list-data
 [[annotations]]
 path = "data/spdx-license-list-data/**"
 precedence = "closest"
 SPDX-FileCopyrightText = "SPDX contributors to the SPDX License List"
 SPDX-License-Identifier = "CC0-1.0"
+SPDX-FileComment = "This file is part of a snapshot from https://github.com/spdx/license-list-data."
+
+[[annotations]]
+path = ["templates/*.mustache"]
+precedence = "closest"
+SPDX-FileCopyrightText = "2026 Guido Wolf Reichert <gwr@bsl-support.de> and contributors"
+SPDX-License-Identifier = "0BSD"
+SPDX-FileComment = "This file is a template file for package-level license declarations."

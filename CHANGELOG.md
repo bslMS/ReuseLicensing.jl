@@ -13,7 +13,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - Relicensed project infrastructure files to `0BSD`.
-
+- Added SPDX-FileComment information to `REUSE.toml` annotations.
+- Added template files in `templates/` for package-level license declarations.
+- Added internal helpers and tests for invoking the REUSE CLI and collecting `reuse lint`
+  line and JSON output.
+- Added `ValidSPDX()` as null-level approval policy for convenience.
+- Added `[reuse_licensing]` metadata to `Project.toml`.
+- Adapted `LICENSE` to new package-level license declaration format.
+- Added `TOML` as dependency.
+- Added `.licensing/manifests/` and `.licensing/README.md` as evidence for dependency
+  closure of the package.
+- Adapted `README.md` to new package-level license declataion format.
 
 ## [0.1.3] - 2026-05-23
 

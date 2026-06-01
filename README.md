@@ -45,24 +45,30 @@ Pkg.add("ReuseLicensing")
 
 Copyright © 2026 Guido Wolf Reichert and contributors
 
-The source code in this project is licensed under the European Union Public Licence v1.2 or
-later (`EUPL-1.2-or-later`).
-The [EUPL v1.2](https://eur-lex.europa.eu/eli/dec_impl/2017/863/oj) was published in the
-Official Journal of the European Union and is available in 23 official EU languages.
+This package is made available under the package-level outbound license expression
+`EUPL-1.2+`. The package-level license declaration and the corresponding license
+text are provided in [`LICENSE`](LICENSE). The
+[European Union Public Licence v1.2](https://eur-lex.europa.eu/eli/dec_impl/2017/863/oj)
+is available in 23 official EU language versions.
 
-Documentation, related assets, project artifacts, and tooling files use separate license
-expressions.
+Individual files may carry separate file-level license expressions, as recorded by their
+SPDX notices or by [`REUSE.toml`](REUSE.toml).
 
-This project follows the [REUSE specification](https://reuse.software/spec/) for copyright
-and licensing information. The authoritative license texts are stored in `LICENSES/`.
-Copyright and license information for individual files is provided via SPDX headers and,
-where applicable, via `REUSE.toml`.
+This project follows the [REUSE specification](https://reuse.software/spec/) for file-level
+copyright and licensing information. License texts used for file-level REUSE licensing are
+stored in [`LICENSES/`](LICENSES/).
 
-Useful REUSE checks:
+> Recorded `Manifest.toml` files under `.licensing/manifests/`, where provided,
+> document dependency resolutions considered when choosing the package-level
+> license expression. They are evidence for that licensing decision, not guarantees
+> about every environment that users may create under different Julia versions,
+> platforms, dependency resolutions, extensions, artifacts, load paths, or local
+> modifications.
+
+To verify the repository-level REUSE metadata:
 
 ```bash
 reuse lint
 reuse spdx
 ```
-
 <!-- PkgTemplates: REUSE licensing section end -->
