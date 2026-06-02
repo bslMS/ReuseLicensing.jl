@@ -57,3 +57,10 @@ precedence = "closest"
 SPDX-FileCopyrightText = "2026 Guido Wolf Reichert <gwr@bsl-support.de> and contributors"
 SPDX-License-Identifier = "0BSD"
 SPDX-FileComment = "This file is a template file for package-level license declarations."
+
+[[annotations]]
+path = ["test/fixtures/packages/**"]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Guido Wolf Reichert <gwr@bsl-support.de> and contributors"
+SPDX-License-Identifier = "0BSD"
+SPDX-FileComment = "These files provide test packages with irrelevant local SPDX headers."

@@ -33,3 +33,18 @@ for use as a file name:
 ```julia
 replace(Base.BinaryPlatforms.host_triplet(), r"_version\+" => "-") * ".toml"
 ```
+
+## Extension Evidence
+
+For packages using Julia package extensions, release evidence may be split into
+profiles.
+
+The `core/` profile records the dependency resolution without optional extension
+triggers. Profiles under `extensions/<ExtensionName>/` record environments in
+which the trigger dependencies for a specific extension were included. Profiles
+under `profiles/<ProfileName>/` record larger advertised combinations, such as
+`plotting`, `gpu`, or `full`.
+
+These profiles are licensing evidence for the environments they record. They do
+not imply that all possible combinations of weak dependencies, extensions,
+artifacts, preferences, load paths, or local modifications have been assessed.

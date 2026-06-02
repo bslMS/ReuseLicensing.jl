@@ -128,6 +128,8 @@ store the current `Manifest.toml`.
 ## API Reference
 
 ```@docs
+check_package_licensing
+is_ok
 set_package_license!
 record_manifest_evidence!
 ```

@@ -47,9 +47,10 @@ function record_manifest_evidence!(
     dest_dir = joinpath(root, MANIFEST_SNAPSHOT_DIRECTORY, "v$version")
     dest = joinpath(dest_dir, filename)
 
-    isfile(dest) && !force && throw(ArgumentError(
-        "`$dest` already exists. Pass `force = true` to overwrite it."
-    ))
+    isfile(dest) && !force &&
+        throw(ArgumentError(
+            "`$dest` already exists. Pass `force = true` to overwrite it."
+        ))
 
     mkpath(dest_dir)
     cp(manifest_file, dest; force)
@@ -65,3 +66,5 @@ function record_manifest_evidence!(
 
     return dest
 end
+
+#TODO allow to give an additional path so that extensions or profiles can be accomodated

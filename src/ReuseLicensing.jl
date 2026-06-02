@@ -19,6 +19,7 @@ export AllOf, AnyOf, ValidSPDX
 export has_approved_license_path
 
 # Package licensing exports.
+export check_package_licensing, is_ok
 export set_package_license!, record_manifest_evidence!
 
 const REUSE_SPECIFICATION_VERSION = "3.3"
@@ -54,6 +55,7 @@ include("reuse_tool/cli.jl")
 # Package level functions.
 include("package/types.jl")
 include("package/project_toml.jl")
+include("package/license_file.jl")
 include("package/licensing.jl")
 include("package/manifest_evidence.jl")
 

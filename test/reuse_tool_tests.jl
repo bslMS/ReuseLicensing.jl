@@ -3,10 +3,6 @@
 
 using TestItems
 
-@testsnippet BaseSetup begin
-    p = ReuseLicensing
-end
-
 @testitem "basic reuse CLI interaction" setup=[BaseSetup] begin
     @test p.has_reuse() isa Bool
 

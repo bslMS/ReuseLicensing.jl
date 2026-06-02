@@ -44,44 +44,124 @@ function check_package_license_setup(
     )
 end
 
-# Validate LICENSE against metadata.
-function license_preamble_matches_metadata(
-        license_file_path::AbstractString,
-        metadata::AbstractDict,
+"""
+    check_package_licensing(root; license_policy = ValidSPDX(), multiprocessing = true)
+
+Check package-level licensing metadata and return a `PackageLicensingCheck`.
+
+The check is non-mutating. It validates the Julia package metadata, the
+`[reuse_licensing]` table in `Project.toml`, the package-level `LICENSE`
+preamble, ambiguous root license-file names, the recorded package license
+expression under `license_policy`, and repository-level REUSE compliance.
+
+Use [`is_ok`](@ref) on the returned value to test whether no issues were found.
+
+# Keyword Arguments
+
+- `license_policy`: Approval policy used to check the recorded package license
+  expression.
+- `multiprocessing`: Whether the external `reuse` tool may use multiprocessing
+  while checking repository-level REUSE compliance.
+"""
+function check_package_licensing(
+        root::AbstractString;
+        license_policy::AbstractExpressionApprovalPolicy = ValidSPDX(),
+        multiprocessing = true
 )
-    isfile(license_file_path) || throw(ArgumentError(
-        "`$license_file_path` does not exist."
-    ))
+    issues = PackageLicensingIssue[]
+    metadata = nothing
+    metadata_valid = false
 
-    lines = readlines(license_file_path)
-    length(lines) >= 6 || throw(ArgumentError(
-        "`$license_file_path` does not contain the expected package-license preamble."
-    ))
+    project = try
+        read_package_project(root)
+    catch err
+        push!(issues, issue(:project_toml, err))
+        nothing
+    end
 
-    copyright_notice = metadata["package_copyright_notice"]
-    package_license = metadata["package_license_expression"]
+    if project !== nothing
+        metadata = try
+            read_reuse_licensing_metadata(project, root)
+        catch err
+            push!(issues, issue(:metadata_missing, err))
+            nothing
+        end
 
-    lines[1] == copyright_notice || throw(ArgumentError(
-        "First line of `LICENSE` does not match `[reuse_licensing].package_copyright_notice`."
-    ))
+        if metadata !== nothing
+            try
+                is_valid_reuse_licensing_metadata(metadata, root)
+                metadata_valid = true
+            catch err
+                push!(issues, issue(:metadata_invalid, err))
+            end
+        end
+    end
 
-    first_lines = join(lines[1:min(end, 10)], "\n")
-    occursin(package_license, first_lines) || throw(ArgumentError(
-        "`LICENSE` preamble does not match `[reuse_licensing].package_license_expression`."
-    ))
+    if metadata_valid
+        package_license = metadata["package_license_expression"]
+        # Safe to use required metadata fields here.
+        try
+            parsed = parse_spdx_expression(package_license; legacy = :error)
+            has_approved_license_path(parsed, license_policy) || push!(issues,
+                issue(
+                    :package_license_not_approved,
+                    "`[reuse_licensing].package_license_expression` is " *
+                    "not approved by `$(typeof(license_policy))`."
+                ))
+        catch err
+            push!(issues, issue(:package_license_invalid, err))
+        end
 
-    return true
+        try
+            license_preamble_matches_metadata(
+                joinpath(root, PACKAGE_LICENSE_FILE), metadata)
+        catch err
+            push!(issues, issue(:license_mismatch, err))
+        end
+    end
+
+    for f in AMBIGUOUS_PACKAGE_LICENSE_FILE_ALTERNATIVES
+        if isfile(joinpath(root, f))
+            push!(issues, issue(:ambiguous_license_file, "Found `$f`."))
+        end
+    end
+
+    try
+        is_reuse_compliant(; root, multiprocessing) || push!(
+            issues, issue(:reuse_noncompliant,
+                "Project in `$root` is not REUSE-compliant. Run `reuse lint -l` for errors."
+            ))
+    catch err
+        push!(issues, issue(:reuse_tool, err))
+    end
+
+    return PackageLicensingCheck(root, issues)
 end
 
 """
-    set_package_license!(root, package_license; kwargs...)
+    set_package_license!(root, package_license; license_policy = ValidSPDX(),
+                         force = false, multiprocessing = true)
 
+Set the package-level license expression for an already adopted package.
+
+The function validates the package licensing setup, preserves the existing
+package copyright notice, writes updated `[reuse_licensing]` metadata to
+`Project.toml`, and renders the package-level `LICENSE` file.
+
+# Keyword Arguments
+
+- `license_policy::AbstractExpressionApprovalPolicy`: Approval policy used to check
+  the new package license expression before writing metadata.
+- `license_ref_dir::Union{AbstractString, Nothing}`: Optional directory containing
+  user-supplied license texts for `LicenseRef-...` identifiers.
+- `multiprocessing::Bool`: Whether the external `reuse` tool may use multiprocessing
+  while checking repository-level REUSE compliance. Defaults to `true`.
 """
 function set_package_license!(
         root::AbstractString,
         package_license::AbstractString;
         license_policy::AbstractExpressionApprovalPolicy = ValidSPDX(),
-        force::Bool = false,
+        license_ref_dir::Union{AbstractString, Nothing} = nothing,
         multiprocessing::Bool = true
 )
     setup = check_package_license_setup(
@@ -96,21 +176,31 @@ function set_package_license!(
     is_valid_reuse_licensing_metadata(metadata, setup.root)
     license_preamble_matches_metadata(setup.license_file_path, metadata)
 
-    # Update the metadata in Project.toml
-    rendered_metadata = render_project_toml_metadata(
-        setup.parsed.expression,
-        metadata["package_copyright_notice"]
+    # Update the metadata in Project.toml.
+    updated_metadata = package_licensing_metadata(
+        package_license_expression = setup.parsed.expression,
+        package_copyright_notice = metadata["package_copyright_notice"]
     )
-    project_text = read(setup.project_file, String)
-    updated_project_text = replace_reuse_licensing_section(project_text, rendered_metadata)
 
     # We are all set to write `LICENSE` with force.
+    license_text = render_package_license_file(updated_metadata, setup.parsed;
+        license_ref_dir
+    )
 
-    return "TO BE IMPLEMENTED"
+    write_project_toml_metadata!(setup.project_file, updated_metadata)
+    write(setup.license_file_path, license_text)
+
+    return (
+        project_file = setup.project_file,
+        license_file = setup.license_file_path,
+        package_license_expression = setup.parsed.expression
+    )
 end
+
+# function adopt_package_licensing!(root; ...)
 
 # function set_package_copyright!(root; year, copyright_holders)
 
-# function adopt_pacakge_licensing!(root; pacakge_license, year, copyright_holders, force)
+# function adopt_package_licensing!(root; package_license, year, copyright_holders, force)
 
-#
+# function repair_package_licensing!(root; ...)

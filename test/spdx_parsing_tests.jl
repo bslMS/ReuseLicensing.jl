@@ -3,10 +3,6 @@
 
 using TestItems
 
-@testsnippet BaseSetup begin
-    p = ReuseLicensing
-end
-
 @testitem "SPDX tokenizer" setup=[BaseSetup] begin
     tokens = p.tokenize_spdx("MIT AND Apache-2.0")
     @test getfield.(tokens, :kind) == [:ATOM, :AND, :ATOM]
@@ -157,4 +153,3 @@ end
     @test parsed.exceptions == Set(["Classpath-exception-2.0"])
     @test parsed.licenserefs == Set{String}()
 end
-

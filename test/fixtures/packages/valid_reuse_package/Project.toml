@@ -1,0 +1,16 @@
+name = "ValidReusePackage"
+uuid = "00000000-0000-0000-0000-000000000001"
+authors = ["Ada Lovelace"]
+version = "0.1.0"
+
+[deps]
+
+[compat]
+julia = "1.10"
+
+[reuse_licensing]
+reuse_specification_version = "3.3"
+spdx_license_list_version = "3.28.0"
+package_license_expression = "MIT"
+package_copyright_notice = "Copyright © 1837 Ada Lovelace"
+package_license_file = "LICENSE"

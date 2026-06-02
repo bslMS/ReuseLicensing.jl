@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `.licensing/manifests/` and `.licensing/README.md` as evidence for dependency
   closure of the package.
 - Adapted `README.md` to new package-level license declataion format.
+- Make `reuse lint` available in `CI.yml`.
 
 ## [0.1.3] - 2026-05-23
 
