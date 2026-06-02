@@ -1,0 +1,9 @@
+name = "LegacyReusePackage"
+uuid = "00000000-0000-0000-0000-000000000001"
+authors = ["Ada Lovelace"]
+version = "0.1.0"
+
+[deps]
+
+[compat]
+julia = "1.10"

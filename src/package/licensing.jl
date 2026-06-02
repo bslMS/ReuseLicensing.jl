@@ -197,10 +197,108 @@ function set_package_license!(
     )
 end
 
-# function adopt_package_licensing!(root; ...)
+function join_copyright_holders(holders::Vector{String})
+    length(holders) == 1 && return holders[1]
+    length(holders) == 2 && return holders[1] * " and " * holders[2]
+    return join(holders[1:(end - 1)], ", ") * ", and " * holders[end]
+end
+
+# Construct copyright notice without trying to dive into full copyright semantics.
+function copyright_notice(
+        year::AbstractString,
+        copyright_holders::Vector{<:AbstractString}
+)
+    year = strip(year)
+    occursin(r"\d{4}", year) || throw(ArgumentError(
+        "`year` must contain at least one four-digit year."
+    ))
+
+    holders = strip.(copyright_holders)
+    isempty(holders) && throw(ArgumentError(
+        "`copyright_holders` must not be empty."
+    ))
+    any(isempty, holders) && throw(ArgumentError(
+        "`copyright_holders` must not contain empty entries."
+    ))
+
+    return "Copyright © $year " * join_copyright_holders(String.(holders))
+end
+
+"""
+    adopt_package_licensing!(root; package_license, year, copyright_holders,
+                             license_policy = ValidSPDX(),
+                             license_ref_dir = nothing,
+                             force = false,
+                             multiprocessing = true)
+
+Adopt package-level licensing metadata and canonical package-level `LICENSE` for
+an already REUSE-compliant Julia package.
+
+The function first checks that the package is REUSE-compliant. It then requires
+that `Project.toml` does not yet contain `[reuse_licensing]` metadata,
+constructs a package copyright notice from `year` and `copyright_holders`,
+appends canonical `[reuse_licensing]` metadata to `Project.toml`, and renders
+the canonical package-level `LICENSE` file.
+
+If `LICENSE` already exists, the function throws unless `force = true`.
+
+# Keyword Arguments
+
+- `package_license::AbstractString`: Package-level outbound SPDX license
+  expression to record in `Project.toml` and render into `LICENSE`.
+- `year::AbstractString`: Copyright year string. It must contain at least one
+  four-digit year.
+- `copyright_holders::Vector{<:AbstractString}`: Copyright holders used to
+  construct the package copyright notice.
+- `license_policy::AbstractExpressionApprovalPolicy`: Approval policy used to
+  check the package license expression before writing metadata.
+- `license_ref_dir::Union{AbstractString, Nothing}`: Optional directory
+  containing user-supplied license texts for `LicenseRef-...` identifiers.
+- `force::Bool`: Allow replacing an existing root `LICENSE` file. Defaults to
+  `false`.
+- `multiprocessing::Bool`: Whether the external `reuse` tool may use
+  multiprocessing while checking repository-level REUSE compliance. Defaults to
+  `true`.
+"""
+function adopt_package_licensing!(
+        root::AbstractString;
+        package_license::AbstractString,
+        year::AbstractString,
+        copyright_holders::Vector{<:AbstractString},
+        license_policy::AbstractExpressionApprovalPolicy = ValidSPDX(),
+        license_ref_dir::Union{AbstractString, Nothing} = nothing,
+        force::Bool = false,
+        multiprocessing::Bool = true
+)
+    setup = check_package_license_setup(
+        root,
+        package_license;
+        license_policy,
+        multiprocessing
+    )
+
+    isfile(setup.license_file_path) && !force &&
+        throw(ArgumentError(
+            "Found existing `LICENSE`. Pass `force = true`."
+        ))
+
+    assert_no_reuse_licensing_metadata(setup.project, root)
+    notice = copyright_notice(year, copyright_holders)
+    metadata = package_licensing_metadata(;
+        package_license_expression = setup.parsed.expression,
+        package_copyright_notice = notice)
+
+    license_text = render_package_license_file(metadata, setup.parsed; license_ref_dir)
+
+    add_project_toml_metadata!(setup.project_file, metadata)
+    write(setup.license_file_path, license_text)
+    return (
+        project_file = setup.project_file,
+        license_file = setup.license_file_path,
+        package_license_expression = setup.parsed.expression
+    )
+end
 
 # function set_package_copyright!(root; year, copyright_holders)
-
-# function adopt_package_licensing!(root; package_license, year, copyright_holders, force)
 
 # function repair_package_licensing!(root; ...)

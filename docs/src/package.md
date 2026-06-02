@@ -102,7 +102,7 @@ Manifest snapshots are stored by package version and Julia host triplet:
 .licensing/manifests/vX.Y.Z/<filename>.toml
 ```
 
-where `<filename>` is derivedfrom a filename-safe normalization of the current
+where `<filename>` is derived from a filename-safe normalization of the current
 Julia host triplet:
 
 ```julia
@@ -131,5 +131,6 @@ store the current `Manifest.toml`.
 check_package_licensing
 is_ok
 set_package_license!
+adopt_package_licensing!
 record_manifest_evidence!
 ```

@@ -20,7 +20,7 @@ export has_approved_license_path
 
 # Package licensing exports.
 export check_package_licensing, is_ok
-export set_package_license!, record_manifest_evidence!
+export set_package_license!, adopt_package_licensing!, record_manifest_evidence!
 
 const REUSE_SPECIFICATION_VERSION = "3.3"
 

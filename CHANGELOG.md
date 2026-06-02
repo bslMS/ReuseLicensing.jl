@@ -12,19 +12,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added package-level licensing metadata under `[reuse_licensing]` in `Project.toml`.
+- Added canonical package-level `LICENSE` rendering from SPDX license expressions.
+- Added `check_package_licensing`, `set_package_license!`, and `adopt_package_licensing!` for checking, changing, and adopting package-level licensing declarations.
+- Added `ValidSPDX()` as a null-level approval policy for valid SPDX license expressions.
+- Added internal helpers and tests for invoking the REUSE CLI and collecting `reuse lint` line and JSON output.
+- Added `.licensing/manifests/` and `.licensing/README.md` for release-scoped dependency evidence.
+- Added template files in `templates/` for package-level license declarations.
+- Added package fixtures and tests for adopting, checking, and changing package-level license declarations.
+
+### Changed
+
+- Adapted `LICENSE` and `README.md` to the new package-level license declaration format.
+- Made `reuse lint` available in `CI.yml`.
 - Relicensed project infrastructure files to `0BSD`.
 - Added SPDX-FileComment information to `REUSE.toml` annotations.
-- Added template files in `templates/` for package-level license declarations.
-- Added internal helpers and tests for invoking the REUSE CLI and collecting `reuse lint`
-  line and JSON output.
-- Added `ValidSPDX()` as null-level approval policy for convenience.
-- Added `[reuse_licensing]` metadata to `Project.toml`.
-- Adapted `LICENSE` to new package-level license declaration format.
+
+### Dependencies
+
 - Added `TOML` as dependency.
-- Added `.licensing/manifests/` and `.licensing/README.md` as evidence for dependency
-  closure of the package.
-- Adapted `README.md` to new package-level license declataion format.
-- Make `reuse lint` available in `CI.yml`.
 
 ## [0.1.3] - 2026-05-23
 
