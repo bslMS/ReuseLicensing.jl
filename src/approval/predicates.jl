@@ -101,14 +101,23 @@ end
 
 """
     has_approved_license_path(expr, policy; legacy = :normalize)
+    has_approved_license_path(parsed::ParsedSPDXExpression, policy)
 
 Return whether an SPDX license expression has at least one license path approved
 by `policy`.
 
 String inputs are parsed with [`parse_spdx_expression`](@ref). `OR` expressions
 require one approved branch; `AND` expressions require all branches. `WITH`
-expressions are currently treated conservatively as not approved.
+expressions are currently treated conservatively as not approved by restrictive policies.
 """
+function has_approved_license_path(
+        expr::AbstractString,
+        policy::AbstractExpressionApprovalPolicy;
+        legacy = :normalize
+)
+    return has_approved_license_path(parse_spdx_expression(expr; legacy), policy)
+end
+
 function has_approved_license_path(
         parsed::ParsedSPDXExpression,
         policy::AbstractExpressionApprovalPolicy
@@ -117,9 +126,8 @@ function has_approved_license_path(
 end
 
 function has_approved_license_path(
-        expr::AbstractString,
-        policy::AbstractExpressionApprovalPolicy;
-        legacy = :normalize
+        parsed::ParsedSPDXExpression,
+        policy::ValidSPDX
 )
-    return has_approved_license_path(parse_spdx_expression(expr; legacy), policy)
+    return true
 end

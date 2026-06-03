@@ -1,0 +1,30 @@
+# REUSE.toml
+# Part of legacy_reuse_package
+
+version = 1
+
+# project infrastructure
+[[annotations]]
+path = [
+    ".gitattributes",
+    ".gitignore",
+    ".github/**",
+    ".vscode/**",
+    ".licensing/**",
+    ".drone.star",
+    ".JuliaFormatter.toml",
+    ".codecov.yml",
+    ".*.yml",
+    "CITATION.bib",
+    "CODEOWNERS",
+    "Project.toml",
+    "Manifest.toml",
+    "docs/make.jl",
+    "docs/Project.toml",
+    "docs/Manifest.toml",
+    "test/Project.toml",
+    "test/Manifest.toml",
+]
+precedence = "closest"
+SPDX-FileCopyrightText = "1837 Ada Lovelace"
+SPDX-License-Identifier = "0BSD"

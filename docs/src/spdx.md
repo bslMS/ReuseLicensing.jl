@@ -4,14 +4,15 @@ CurrentModule = ReuseLicensing
 
 # SPDX Core
 
-ReuseLicensing.jl provides the package's core SPDX functionality: parsing SPDX
-license expressions, collecting referenced identifiers, and using a checked-in
-snapshot of the [SPDX License List Data](https://github.com/spdx/license-list-data)
-for lookup and bundled license texts.
+The SPDX core provides functionality for parsing SPDX license expressions,
+collecting referenced identifiers, and using a checked-in snapshot of the
+[SPDX License List Data](https://github.com/spdx/license-list-data) for lookup
+and bundled license texts.
 
 ## SPDX license expressions
 
-[SPDX license expressions](https://spdx.github.io/spdx-spec/v2.3/SPDX-license-expressions/) can be parsed into a compact result object that contains
+[SPDX license expressions](https://spdx.github.io/spdx-spec/v2.3/SPDX-license-expressions/)
+can be parsed into a compact result object that contains
 the normalized expression string, referenced SPDX license identifiers, referenced
 exception identifiers, and `LicenseRef-*` identifiers.
 
@@ -31,7 +32,8 @@ sort(collect(parsed.licenserefs))
 ```
 
 Legacy SPDX license identifiers with current replacements are normalized by
-default. Pass `legacy = :error` to reject them instead.
+default, so older spellings such as `GPL-2.0+` are returned in their current
+SPDX form. Pass `legacy = :error` to reject legacy identifiers instead.
 
 ```@example spdx-parsing
 parse_spdx_expression("GPL-2.0+").expression
@@ -57,7 +59,8 @@ canonical_spdx_license_exception_id
 
 ## Accessing texts and paths
 
-ReuseLicensing.jl provides direct access to texts as well as to path information for controlled loading at the call site.
+ReuseLicensing provides direct access to bundled license and exception texts, as
+well as path-based access for callers that need to control file loading.
 
 ```@docs
 spdx_license_text_path
