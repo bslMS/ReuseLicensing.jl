@@ -37,3 +37,5 @@ issue(code::Symbol, err) = PackageLicensingIssue(code, sprint(showerror, err))
 issue(code::Symbol, message::AbstractString) = PackageLicensingIssue(code, String(message))
 
 is_ok(check::PackageLicensingCheck) = isempty(check.issues)
+
+normalize_line_endings(text::AbstractString) = replace(replace(text, "\r\n" => "\n"), "\r" => "\n")

@@ -22,7 +22,7 @@ end
     else
         PackageFixtures.with_package_fixture("valid_reuse_package") do root
             license_file = joinpath(root, "LICENSE")
-            text = replace(read(license_file, String), "\n" => "\r\n")
+            text = replace(p.normalize_line_endings(read(license_file, String)), "\n" => "\r\n")
             write(license_file, text)
 
             @test has_valid_package_licensing(root; license_policy = OSIApproved())

@@ -10,7 +10,7 @@ function license_preamble_matches_metadata(
         "`$license_file_path` does not exist."
     ))
 
-    text = replace(read(license_file_path, String), "\r\n" => "\n")
+    text = normalize_line_endings(read(license_file_path, String))
     lines = split(text, '\n')
     length(lines) >= 6 || throw(ArgumentError(
         "`$license_file_path` does not contain the expected package-license preamble."
@@ -53,7 +53,7 @@ function replace_license_copyright_notice!(
         old_notice::AbstractString,
         new_notice::AbstractString
 )
-    text = replace(read(license_file_path, String), "\r\n" => "\n")
+    text = normalize_line_endings(read(license_file_path, String))
     updated_text = replace_license_copyright_notice_text(text, old_notice, new_notice)
     write(license_file_path, updated_text)
     return license_file_path

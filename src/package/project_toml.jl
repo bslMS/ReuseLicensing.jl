@@ -132,6 +132,7 @@ function replace_reuse_licensing_section(
         project_text::AbstractString,
         rendered_metadata::AbstractString
 )
+    project_text = normalize_line_endings(project_text)
     pattern = r"(?ms)^\[reuse_licensing\]\n.*?(?=^\[|\z)"
     occursin(pattern, project_text) || throw(ArgumentError(
         "`Project.toml` must contain `[reuse_licensing]` metadata."
@@ -151,7 +152,7 @@ end
 
 # Write changed metadata to Project.toml.
 function write_project_toml_metadata!(project_file::AbstractString, metadata::AbstractDict)
-    project_text = read(project_file, String)
+    project_text = normalize_line_endings(read(project_file, String))
     rendered_metadata = render_project_toml_metadata(metadata)
     updated_project_text = replace_reuse_licensing_section(project_text, rendered_metadata)
     write(project_file, updated_project_text)
@@ -165,7 +166,7 @@ function assert_no_reuse_licensing_metadata(project::AbstractDict, root::Abstrac
 end
 
 function add_project_toml_metadata!(project_file::AbstractString, metadata::AbstractDict)
-    project_text = read(project_file, String)
+    project_text = normalize_line_endings(read(project_file, String))
     rendered_metadata = render_project_toml_metadata(metadata)
     updated_project_text = chomp(project_text) * "\n\n" * chomp(rendered_metadata) * "\n"
 
