@@ -156,7 +156,7 @@ end
                 "Copyright © 1837-1843 Ada Lovelace and contributors" =>
                     "Copyright © 1837 Ada Lovelace";
                 count = 1
-            ) == license_before
+            ) == p.normalize_line_endings(license_before)
         end
     end
 end
@@ -172,7 +172,7 @@ end
             project_file = joinpath(root, "Project.toml")
             project_before = read(project_file, String)
             license_file = joinpath(root, "LICENSE")
-            license_text = read(license_file, String)
+            license_text = p.normalize_line_endings(read(license_file, String))
             license_text = replace(
                 license_text,
                 "Copyright © 1837 Ada Lovelace\n\n" =>
