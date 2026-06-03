@@ -38,6 +38,7 @@ function replace_license_copyright_notice_text(
         old_notice::AbstractString,
         new_notice::AbstractString
 )
+    text = normalize_line_endings(text)
     prefix = old_notice * "\n\n"
     startswith(text, prefix) || throw(ArgumentError(
         "`LICENSE` does not start with the expected package copyright notice " *
