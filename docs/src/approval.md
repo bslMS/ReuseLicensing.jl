@@ -19,13 +19,15 @@ normalized SPDX expression tree returned by [`parse_spdx_expression`](@ref).
 
 ### Approval Policies
 
-Approval is policy-dependent. ReuseLicensing currently provides metadata-backed
-policies based on the checked-in SPDX snapshot:
+Approval is policy-dependent. ReuseLicensing currently provides policies based on
+the checked-in SPDX License List snapshot:
 
 - [`OSIApproved`](@ref): accepts SPDX license identifiers marked as OSI approved.
 - [`FSFLibre`](@ref): accepts SPDX license identifiers marked as FSF libre.
-- [`UnconjoinedOSIApproval`](@ref): accepts OSI-approved package-code license paths without conjunctions.
-- [`OpenContentApproval`](@ref): accepts selected non-code content licenses, currently `CC0-1.0`, `CC-BY-4.0`, and `CC-BY-SA-4.0`.
+- [`UnconjoinedOSIApproval`](@ref): accepts OSI-approved package license expressions
+  without conjunctions.
+- [`OpenContentApproval`](@ref): accepts selected non-code content licenses, currently
+  `CC0-1.0`, `CC-BY-4.0`, and `CC-BY-SA-4.0`.
 
 Policies can be combined:
 
@@ -41,7 +43,7 @@ expressions it follows the structure of the expression:
 
 - `A OR B`: approved if either branch has an approved path (disjunction).
 - `A AND B`: approved if both branches are approved (conjunction).
-- `LicenseRef-*`: not approved by SPDX metadata-backed policies.
+- `LicenseRef-*`: not approved by policies based on SPDX License List data.
 - `A WITH exception`: currently treated conservatively as not approved.
 
 The name "license path" is intentional. For an `OR` expression, an expression can
@@ -73,7 +75,7 @@ has_approved_license_path("MIT AND Apache-2.0", OSIApproved())
 ```
 
 The stricter [`UnconjoinedOSIApproval`](@ref) policy does not approve such
-conjunctions as package-code license paths:
+conjunctions as package-level code license expressions:
 
 ```@example approval
 has_approved_license_path("MIT AND Apache-2.0", UnconjoinedOSIApproval())
@@ -110,7 +112,8 @@ has_approved_license_path(
 )
 ```
 
-Use `ValidSPDX` to allow for arbitrary SPDX license expressions as long as they are valid:
+Use `ValidSPDX` to accept any valid SPDX license expression without applying an
+additional approval policy:
 
 ```@example approval
 has_approved_license_path("MIT AND LicenseRef-Internal", ValidSPDX())
@@ -132,11 +135,12 @@ ValidSPDX
 ## File-Level Approval
 
 File-level approval is planned as a separate layer. It will build on
-expression-level approval and add file metadata concerns such as discovered SPDX
-license expressions, source of the metadata, and file-specific issues.
+expression-level approval and add file-level licensing concerns such as discovered
+SPDX license expressions, where they were found, and file-specific issues.
 
 ## Repository-Level Approval
 
 Repository-level approval is planned as an aggregation layer over file-level
 results and repository checks such as REUSE lint output and required license
-texts.
+texts. It is distinct from package-level licensing, which records and validates
+the outbound package-level declaration in `Project.toml` and `LICENSE`.

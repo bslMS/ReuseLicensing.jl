@@ -10,7 +10,8 @@ function license_preamble_matches_metadata(
         "`$license_file_path` does not exist."
     ))
 
-    lines = readlines(license_file_path)
+    text = read(license_file_path, String)
+    lines = split(text, '\n')
     length(lines) >= 6 || throw(ArgumentError(
         "`$license_file_path` does not contain the expected package-license preamble."
     ))
@@ -18,8 +19,9 @@ function license_preamble_matches_metadata(
     copyright_notice = metadata["package_copyright_notice"]
     package_license = metadata["package_license_expression"]
 
-    lines[1] == copyright_notice || throw(ArgumentError(
-        "First line of `LICENSE` does not match `[reuse_licensing].package_copyright_notice`."
+    startswith(text, copyright_notice * "\n\n") || throw(ArgumentError(
+        "`LICENSE` does not start with `[reuse_licensing].package_copyright_notice` " *
+        "followed by a blank line."
     ))
 
     first_lines = join(lines[1:min(end, 10)], "\n")
@@ -28,6 +30,33 @@ function license_preamble_matches_metadata(
     ))
 
     return true
+end
+
+# Replace only the managed package copyright notice line in canonical LICENSE text.
+function replace_license_copyright_notice_text(
+        text::AbstractString,
+        old_notice::AbstractString,
+        new_notice::AbstractString
+)
+    prefix = old_notice * "\n\n"
+    startswith(text, prefix) || throw(ArgumentError(
+        "`LICENSE` does not start with the expected package copyright notice " *
+        "followed by a blank line."
+    ))
+
+    return new_notice * "\n\n" * text[(lastindex(prefix) + 1):end]
+end
+
+# Replace only the managed package copyright notice line in LICENSE.
+function replace_license_copyright_notice!(
+        license_file_path::AbstractString,
+        old_notice::AbstractString,
+        new_notice::AbstractString
+)
+    text = read(license_file_path, String)
+    updated_text = replace_license_copyright_notice_text(text, old_notice, new_notice)
+    write(license_file_path, updated_text)
+    return license_file_path
 end
 
 # Locate the canonical LICENSE template shipped with the package.
@@ -122,5 +151,4 @@ function render_package_license_file(
     end
     return join(chomp.(license_parts), "\n\n") * "\n"
 end
-
 

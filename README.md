@@ -22,8 +22,8 @@
 ReuseLicensing.jl provides core infrastructure for working with REUSE and SPDX
 licensing metadata in Julia projects. It parses SPDX license expressions, extracts
 referenced licenses, exceptions, and `LicenseRef-*` identifiers, checks whether an
-expression has an approved licensing path, and supports repository-level
-verification workflows based on `reuse lint --json` and `reuse spdx`.
+expression has an approved licensing path, and supports REUSE compliance workflows
+based on `reuse lint --json` and `reuse spdx`.
 
 The package is intended as a small, reusable foundation for tooling that needs to
 reason about project licensing rather than merely copy license texts into a
@@ -38,34 +38,94 @@ using Pkg
 Pkg.add("ReuseLicensing")
 ```
 
+ReuseLicensing.jl can parse SPDX expressions and inspect its checked-in SPDX
+snapshot without external tools. Functions that check repository-level REUSE
+compliance call the `reuse` executable from the
+[`reuse-tool`](https://codeberg.org/fsfe/reuse-tool) project, so `reuse` must be
+available on `PATH` for those workflows.
+
+On macOS, one option is Homebrew:
+
+```shell
+brew install reuse
+```
+
+In Python-based environments and CI jobs, the tool can also be installed with
+`pip`:
+
+```shell
+python -m pip install "reuse[charset-normalizer]"
+```
+
+## What It Does
+
+ReuseLicensing.jl currently supports:
+
+- parsing and normalizing SPDX license expressions,
+- querying a checked-in SPDX License List snapshot,
+- checking SPDX expressions against approval policies,
+- consuming `reuse lint --json` and `reuse spdx` output,
+- validating and updating package-level licensing metadata for Julia packages,
+- recording `Manifest.toml` snapshots as licensing evidence.
+
+## Quick Start
+
+Currently, SPDX license expressions can be parsed and checked against explicit
+approval policies:
+
+```julia
+using ReuseLicensing
+
+parsed = parse_spdx_expression("MIT OR Apache-2.0")
+
+has_approved_license_path(parsed, OSIApproved()) # true
+has_approved_license_path("MIT AND LicenseRef-Internal", ValidSPDX()) # true
+```
+
+Package-level licensing checks operate on a package root. The examples below assume that
+Julia's current working directory is the package root:
+
+```julia
+using ReuseLicensing
+
+check = check_package_licensing(".")
+isempty(check.issues) # true when package licensing checks pass
+
+has_valid_package_licensing(".") # a boolean convenience wrapper
+```
+
+Legacy packages that are already REUSE-compliant can be adopted to the format that
+ReuseLicensing.jl expects using `adopt_package_licensing!()`. For more information,
+turn to the [stable documentation](https://bsl-support.de/julia/ReuseLicensing.jl/).
+
 <!-- PkgTemplates: REUSE licensing section start -->
 ## Licensing
 
 <img src="docs/src/assets/Logo_EUPL.svg" alt="EUPL logo" width="84" align="right">
 
-Copyright © 2026 Guido Wolf Reichert and contributors
+ReuseLicensing.jl is offered under the outbound package-level license expression
+`EUPL-1.2+`. The authoritative package-level license declaration and copyright notice are
+recorded in [`LICENSE`](LICENSE), together with the corresponding license text.
 
-This package is made available under the package-level outbound license expression
-`EUPL-1.2+`. The package-level license declaration and the corresponding license
-text are provided in [`LICENSE`](LICENSE). The
-[European Union Public Licence v1.2](https://eur-lex.europa.eu/eli/dec_impl/2017/863/oj)
+Machine-readable package-level licensing metadata is recorded in the `[reuse_licensing]`
+table of [`Project.toml`](Project.toml).
+
+The [European Union Public Licence v1.2](https://eur-lex.europa.eu/eli/dec_impl/2017/863/oj)
 is available in 23 official EU language versions.
 
-Individual files may carry separate file-level license expressions, as recorded by their
-SPDX notices or by [`REUSE.toml`](REUSE.toml).
-
-This project follows the [REUSE specification](https://reuse.software/spec/) for file-level
-copyright and licensing information. License texts used for file-level REUSE licensing are
+Individual files may carry separate file-level license expressions, as recorded
+by their SPDX notices or by [`REUSE.toml`](REUSE.toml). This project follows the
+[REUSE specification](https://reuse.software/spec/) for file-level copyright and
+licensing information. License texts used for file-level REUSE licensing are
 stored in [`LICENSES/`](LICENSES/).
 
 > Recorded `Manifest.toml` files under `.licensing/manifests/`, where provided,
 > document dependency resolutions considered when choosing the package-level
-> license expression. They are evidence for that licensing decision, not guarantees
-> about every environment that users may create under different Julia versions,
-> platforms, dependency resolutions, extensions, artifacts, load paths, or local
-> modifications.
+> license expression. They are evidence for that decision, not guarantees for
+> other Julia versions, platforms, dependency resolutions, extensions, artifacts,
+> load paths, or local modifications.
 
-To verify the repository-level REUSE metadata:
+To verify repository-level REUSE metadata:
 
 ```bash
 reuse lint

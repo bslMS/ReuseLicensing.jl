@@ -57,7 +57,14 @@ New Julia source files should normally use:
 ```
 
 Documentation files are generally licensed under `CC-BY-SA-4.0`, unless stated
-otherwise by file-level SPDX metadata. Project tooling, configuration, and other project infrastructure file may be licensed under `0BSD`, where appropriate.
+otherwise by file-level SPDX metadata. Project tooling, configuration files,
+templates, and other project infrastructure files may be licensed under `0BSD`,
+where appropriate.
+
+Do not edit the root `LICENSE` file or the `[reuse_licensing]` table in
+`Project.toml` by hand unless the change is specifically about package-level
+licensing. Package-level declarations should be changed with ReuseLicensing
+tooling so that `LICENSE` and `Project.toml` remain coherent.
 
 When modifying existing files, follow the existing licensing domain of the file.
 

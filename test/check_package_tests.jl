@@ -8,8 +8,9 @@ using TestItems
         @test_skip "reuse CLI not available"
     else
         PackageFixtures.with_package_fixture("valid_reuse_package") do root
+            @test has_valid_package_licensing(root; license_policy = OSIApproved())
             check = check_package_licensing(root; license_policy = OSIApproved())
-            @test is_ok(check)
+            @test isempty(check.issues)
             @test check.root == root
         end
     end
@@ -26,8 +27,9 @@ end
             text = replace(text, r"(?ms)^\[reuse_licensing\]\n.*?(?=^\[|\z)" => "")
             write(project_file, text)
 
+            @test !has_valid_package_licensing(root)
             check = check_package_licensing(root)
-            @test !is_ok(check)
+            @test !isempty(check.issues)
             @test PackageFixtures.has_issue(check, :metadata_missing)
         end
     end
@@ -43,8 +45,9 @@ end
             text = replace(text, r"(?m)^package_license_expression = \"MIT\"\n" => "")
             write(project_file, text)
 
+            @test !has_valid_package_licensing(root)
             check = check_package_licensing(root)
-            @test !is_ok(check)
+            @test !isempty(check.issues)
             @test PackageFixtures.has_issue(check, :metadata_invalid)
         end
     end
@@ -63,8 +66,9 @@ end
             )
             write(project_file, text)
 
+            @test !has_valid_package_licensing(root)
             check = check_package_licensing(root)
-            @test !is_ok(check)
+            @test !isempty(check.issues)
             @test PackageFixtures.has_issue(check, :package_license_invalid)
         end
     end
@@ -83,8 +87,9 @@ end
             )
             write(project_file, text)
 
+            @test !has_valid_package_licensing(root; license_policy = OSIApproved())
             check = check_package_licensing(root; license_policy = OSIApproved())
-            @test !is_ok(check)
+            @test !isempty(check.issues)
             @test PackageFixtures.has_issue(check, :package_license_not_approved)
         end
     end
@@ -104,8 +109,9 @@ end
             )
             write(license_file, text)
 
+            @test !has_valid_package_licensing(root)
             check = check_package_licensing(root)
-            @test !is_ok(check)
+            @test !isempty(check.issues)
             @test PackageFixtures.has_issue(check, :license_mismatch)
         end
     end
@@ -118,8 +124,9 @@ end
         PackageFixtures.with_package_fixture("valid_reuse_package") do root
             write(joinpath(root, "LICENSE.txt"), "Ambiguous package license file.\n")
 
+            @test !has_valid_package_licensing(root)
             check = check_package_licensing(root)
-            @test !is_ok(check)
+            @test !isempty(check.issues)
             @test PackageFixtures.has_issue(check, :ambiguous_license_file)
         end
     end

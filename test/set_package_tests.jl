@@ -118,3 +118,78 @@ end
         end
     end
 end
+
+@testitem "change package copyright notice" setup=[BaseSetup, PackageFixtures] begin
+    if !p.has_reuse()
+        @test_skip "reuse CLI not available"
+    else
+        PackageFixtures.with_package_fixture("valid_reuse_package") do root
+            project_file = joinpath(root, "Project.toml")
+            license_file = joinpath(root, "LICENSE")
+            license_before = read(license_file, String)
+
+            result = set_package_copyright!(
+                root;
+                year = "1837-1843",
+                copyright_holders = ["Ada Lovelace", "contributors"]
+            )
+
+            @test result.project_file == project_file
+            @test result.license_file == license_file
+            @test result.package_copyright_notice ==
+                  "Copyright © 1837-1843 Ada Lovelace and contributors"
+
+            project_after = read(project_file, String)
+            license_after = read(license_file, String)
+
+            @test occursin(
+                "package_copyright_notice = \"Copyright © 1837-1843 Ada Lovelace and contributors\"",
+                project_after
+            )
+            @test startswith(
+                license_after,
+                "Copyright © 1837-1843 Ada Lovelace and contributors\n\n"
+            )
+            @test occursin("MIT License", license_after)
+            @test replace(
+                license_after,
+                "Copyright © 1837-1843 Ada Lovelace and contributors" =>
+                    "Copyright © 1837 Ada Lovelace";
+                count = 1
+            ) == license_before
+        end
+    end
+end
+
+@testitem "non-canonical copyright preamble prevents change" setup=[
+    BaseSetup,
+    PackageFixtures
+] begin
+    if !p.has_reuse()
+        @test_skip "reuse CLI not available"
+    else
+        PackageFixtures.with_package_fixture("valid_reuse_package") do root
+            project_file = joinpath(root, "Project.toml")
+            project_before = read(project_file, String)
+            license_file = joinpath(root, "LICENSE")
+            license_text = read(license_file, String)
+            license_text = replace(
+                license_text,
+                "Copyright © 1837 Ada Lovelace\n\n" =>
+                    "Copyright © 1837 Ada Lovelace\n";
+                count = 1
+            )
+            write(license_file, license_text)
+            license_before = read(license_file, String)
+
+            @test_throws ArgumentError set_package_copyright!(
+                root;
+                year = "1843",
+                copyright_holders = ["Ada Lovelace"]
+            )
+
+            @test read(project_file, String) == project_before
+            @test read(license_file, String) == license_before
+        end
+    end
+end

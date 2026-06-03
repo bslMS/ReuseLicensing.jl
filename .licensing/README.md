@@ -27,6 +27,12 @@ Release evidence is stored under:
 .licensing/manifests/vX.Y.Z/<filename>.toml
 ```
 
+When a named evidence profile is used, it is stored below the package version:
+
+```text
+.licensing/manifests/vX.Y.Z/<profile>/<filename>.toml
+```
+
 where `<filename>` is the Julia host triplet with the Julia version normalized
 for use as a file name:
 
@@ -34,16 +40,27 @@ for use as a file name:
 replace(Base.BinaryPlatforms.host_triplet(), r"_version\+" => "-") * ".toml"
 ```
 
-## Extension Evidence
+Profile names are user-defined labels for selected dependency resolutions. They
+are normalized to lowercase path components. Whitespace and underscores are
+replaced by `-`; path components may contain lowercase ASCII letters, digits,
+`.`, and `-`, and must not be empty, hidden, absolute, or contain `.` or `..`.
 
-For packages using Julia package extensions, release evidence may be split into
-profiles.
+Examples:
 
-The `core/` profile records the dependency resolution without optional extension
-triggers. Profiles under `extensions/<ExtensionName>/` record environments in
-which the trigger dependencies for a specific extension were included. Profiles
-under `profiles/<ProfileName>/` record larger advertised combinations, such as
-`plotting`, `gpu`, or `full`.
+```text
+.licensing/manifests/vX.Y.Z/gpu/<filename>.toml
+.licensing/manifests/vX.Y.Z/plotting/<filename>.toml
+.licensing/manifests/vX.Y.Z/extensions/fooext/<filename>.toml
+```
+
+## Profile Evidence
+
+For packages using Julia package extensions or optional dependency sets, release
+evidence may be split into profiles.
+
+The unprofiled path records the default dependency resolution considered for the
+package. Named profiles record additional selected environments, such as
+`plotting`, `gpu`, `full`, or `extensions/FooExt`.
 
 These profiles are licensing evidence for the environments they record. They do
 not imply that all possible combinations of weak dependencies, extensions,

@@ -36,9 +36,4 @@ end
 issue(code::Symbol, err) = PackageLicensingIssue(code, sprint(showerror, err))
 issue(code::Symbol, message::AbstractString) = PackageLicensingIssue(code, String(message))
 
-"""
-    is_ok(check::PackageLicensingCheck)
-
-Return whether `check` contains no package licensing issues.
-"""
 is_ok(check::PackageLicensingCheck) = isempty(check.issues)
