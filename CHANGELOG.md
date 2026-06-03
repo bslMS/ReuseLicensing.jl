@@ -12,10 +12,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-06-03
+
 ### Added
 
 - Added package-level licensing metadata under `[reuse_licensing]` in `Project.toml`.
 - Added canonical package-level `LICENSE` rendering from SPDX license expressions.
+- Added `ValidSPDX()` as a null-level approval policy for valid SPDX license expressions.
 - Added `check_package_licensing`, `has_valid_package_licensing`,
   `set_package_license!`, `set_package_copyright!`, and
   `adopt_package_licensing!` for checking, changing, and adopting package-level
@@ -34,7 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Adapted `LICENSE` and `README.md` to the new package-level license declaration format.
 - Made `reuse lint` available in `CI.yml`.
 - Relicensed project infrastructure files to `0BSD`.
-- Added SPDX-FileComment information to `REUSE.toml` annotations.
+- Annotated `REUSE.toml` annotations with SPDX-FileComment information.
 - Tightened canonical `LICENSE` preamble checks to require the package copyright
   notice followed by a blank line.
 
@@ -72,8 +75,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial public version.
 
-
-[Unreleased]: https://github.com/bslMS/ReuseLicensing.jl/compare/v0.1.3...HEAD
+[Unreleased]: https://github.com/bslMS/ReuseLicensing.jl/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/bslMS/ReuseLicensing.jl/compare/v0.1.3...v0.2.0
 [0.1.3]: https://github.com/bslMS/ReuseLicensing.jl/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/bslMS/ReuseLicensing.jl/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/bslMS/ReuseLicensing.jl/compare/v0.1.0...v0.1.1

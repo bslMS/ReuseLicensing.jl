@@ -81,6 +81,15 @@ In Python-based environments and CI jobs:
 python -m pip install "reuse[charset-normalizer]"
 ```
 
+## Documentation
+
+- [SPDX Core](spdx.md): parse SPDX license expressions and query bundled
+  SPDX License List data.
+- [Approval Layers](approval.md): check SPDX expressions against explicit
+  approval policies.
+- [Package Licensing](package.md): manage package-level license declarations
+  in `Project.toml` and `LICENSE`.
+
 ## REUSE Specification Version
 
 ReuseLicensing records the REUSE specification version it is based on.
