@@ -9,6 +9,7 @@ Tar = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
 
 [compat]
 CodecZlib = "0.7"
+Downloads = "1.7.0"
 JSON = "1"
 SHA = "0.7.0"
 TOML = "1.0.3"
