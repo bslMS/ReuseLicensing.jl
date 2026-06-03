@@ -61,18 +61,14 @@ end
             @test occursin(old_copyright_notice, license_before) &&
                   !occursin(old_copyright_notice, license_after)
 
-            @test occursin(
-                "[reuse_licensing]\n",
-                project_after
-            )
+            normalized_project_after = replace(project_after, "\r\n" => "\n")
+
+            @test occursin("[reuse_licensing]\n", normalized_project_after)
             @test occursin(
                 "package_copyright_notice = \"Copyright © 1837 Ada Lovelace\"\n",
-                project_after
+                normalized_project_after
             )
-            @test occursin(
-                "package_license_expression = \"MIT\"\n",
-                project_after
-            )
+            @test occursin("package_license_expression = \"MIT\"\n", normalized_project_after)
         end
     end
 end

@@ -16,6 +16,22 @@ using TestItems
     end
 end
 
+@testitem "valid package check accepts CRLF license preamble" setup=[BaseSetup, PackageFixtures] begin
+    if !p.has_reuse()
+        @test_skip "reuse CLI not available"
+    else
+        PackageFixtures.with_package_fixture("valid_reuse_package") do root
+            license_file = joinpath(root, "LICENSE")
+            text = replace(read(license_file, String), "\n" => "\r\n")
+            write(license_file, text)
+
+            @test has_valid_package_licensing(root; license_policy = OSIApproved())
+            check = check_package_licensing(root; license_policy = OSIApproved())
+            @test isempty(check.issues)
+        end
+    end
+end
+
 @testitem "missing reuse metadata" setup=[BaseSetup, PackageFixtures] begin
     if !p.has_reuse()
         @test_skip "reuse CLI not available"
@@ -24,7 +40,7 @@ end
             project_file = joinpath(root, "Project.toml")
             text = read(project_file, String)
             # Remove the [reuse_licensing] table.
-            text = replace(text, r"(?ms)^\[reuse_licensing\]\n.*?(?=^\[|\z)" => "")
+            text = replace(text, r"(?ms)^\[reuse_licensing\]\r?\n.*?(?=^\[|\z)" => "")
             write(project_file, text)
 
             @test !has_valid_package_licensing(root)
@@ -42,7 +58,7 @@ end
         PackageFixtures.with_package_fixture("valid_reuse_package") do root
             project_file = joinpath(root, "Project.toml")
             text = read(project_file, String)
-            text = replace(text, r"(?m)^package_license_expression = \"MIT\"\n" => "")
+            text = replace(text, r"(?m)^package_license_expression = \"MIT\"\r?\n" => "")
             write(project_file, text)
 
             @test !has_valid_package_licensing(root)
