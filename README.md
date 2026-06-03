@@ -16,6 +16,7 @@
 <p align="center">
   <a href="https://reuse.software/spec/">REUSE Specification</a> ·
   <a href="https://spdx.github.io/spdx-spec/v2.3/SPDX-license-expressions/">SPDX License Expressions</a> ·
+  <a href="https://bsl-support.de/julia/ReusePkgTemplates.jl/">ReusePkgTemplates.jl</a> ·
   <a href="https://github.com/bslMS/ReuseLicensing.jl/issues">Issues</a>
 </p>
 
