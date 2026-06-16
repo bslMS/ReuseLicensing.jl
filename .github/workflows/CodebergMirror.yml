@@ -1,0 +1,45 @@
+name: Mirror to Codeberg
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: codeberg-mirror
+  cancel-in-progress: false
+
+jobs:
+  mirror:
+    name: Mirror main and tags
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.CODEBERG_SSH_KEY }}
+          SSH_KNOWN_HOSTS: ${{ vars.CODEBERG_KNOWN_HOSTS }}
+        run: |
+          test -n "$SSH_PRIVATE_KEY"
+          test -n "$SSH_KNOWN_HOSTS"
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/codeberg
+          chmod 600 ~/.ssh/codeberg
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+          ssh-keygen -y -f ~/.ssh/codeberg > /dev/null
+
+      - name: Mirror to Codeberg
+        env:
+          CODEBERG_REPOSITORY: git@codeberg.org:bslMS/ReuseLicensing.jl.git
+          GIT_SSH_COMMAND: ssh -i ~/.ssh/codeberg -o IdentitiesOnly=yes
+        run: |
+          git clone --bare "https://github.com/${GITHUB_REPOSITORY}.git" repository.git
+          git -C repository.git push --prune "$CODEBERG_REPOSITORY" \
+            '+refs/heads/main:refs/heads/main' \
+            '+refs/tags/*:refs/tags/*'
