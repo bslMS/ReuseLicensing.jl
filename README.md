@@ -17,8 +17,14 @@
   <a href="https://reuse.software/spec/">REUSE Specification</a> ·
   <a href="https://spdx.github.io/spdx-spec/v2.3/SPDX-license-expressions/">SPDX License Expressions</a> ·
   <a href="https://bsl-support.de/julia/ReusePkgTemplates.jl/">ReusePkgTemplates.jl</a> ·
-  <a href="https://github.com/bslMS/ReuseLicensing.jl/issues">Issues</a>
+  <a href="https://github.com/bslMS/ReuseLicensing.jl/issues">Issues</a> ·
+  <a href="https://codeberg.org/bslMS/ReuseLicensing.jl">Codeberg mirror</a>
 </p>
+
+This repository is mirrored read-only on
+[Codeberg](https://codeberg.org/bslMS/ReuseLicensing.jl). Please use the
+[GitHub repository](https://github.com/bslMS/ReuseLicensing.jl) for issues,
+pull requests, and releases.
 
 ReuseLicensing.jl provides core infrastructure for working with REUSE and SPDX
 licensing metadata in Julia projects. It parses SPDX license expressions, extracts
