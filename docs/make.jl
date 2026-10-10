@@ -25,7 +25,7 @@ makedocs(;
     authors = "Guido Wolf Reichert <gwr@bsl-support.de> and contributors",
     sitename = "ReuseLicensing.jl",
     format = Documenter.HTML(;
-        canonical = "https://bsl-support.de/julia/ReuseLicensing.jl",
+        canonical = "https://bslms.github.io/ReuseLicensing.jl/stable/",
         edit_link = "main",
         assets = String[],
         footer = "Copyright © 2026 Guido Wolf Reichert and contributors ⋅ " *
