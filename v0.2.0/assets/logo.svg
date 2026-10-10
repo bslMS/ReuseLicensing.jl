@@ -1,0 +1,56 @@
+<svg
+  width="454"
+  height="518"
+  viewBox="0 0 454 518"
+  xmlns="http://www.w3.org/2000/svg">
+
+  <!--
+  SPDX-FileCopyrightText: 2026 Guido Wolf Reichert <gwr@bsl-support.de>
+  SPDX-License-Identifier: CC-BY-SA-4.0
+  -->
+
+  <!--
+  Variant: light-background-logo.
+  Intended use: transparent SVG for light documentation themes or light UI backgrounds.
+  -->
+
+  <!-- background scale -->
+  <g fill="#E6E6E6">
+    <rect x="11" y="73" width="426" height="41" rx="20.5" />
+    <rect x="204" y="5" width="40" height="485" rx="20" />
+    <rect x="77" y="476" width="298" height="38" />
+  </g>
+
+  <!-- scale pan supports: chevrons meeting at the top -->
+  <g
+    fill="none"
+    stroke="#E6E6E6"
+    stroke-width="19"
+    stroke-linecap="butt"
+    stroke-linejoin="miter">
+    <path d="M13 297L50 96L91 295" />
+    <path d="M356 295L400 94L443 293" />
+  </g>
+
+  <!-- scale pans -->
+  <g fill="#E6E6E6">
+    <path d="M103.39 316.399C99.26 344.168 73.4 363.332 45.64 359.203C23.45 355.905 6.05 338.461 2.81 316.271Z" />
+    <path d="M450.96 314.534C446.83 342.302 420.97 361.466 393.2 357.338C371.02 354.04 353.62 336.596 350.38 314.406Z" />
+  </g>
+
+  <!-- foreground expression tree -->
+  <g
+    fill="none"
+    stroke="#111827"
+    stroke-width="9.16667"
+    stroke-linecap="butt"
+    stroke-linejoin="miter">
+    <path d="M67.5 283.254L211.775 114.5" />
+    <path d="M387.09 284.718L240.5 114.5" />
+  </g>
+
+  <!-- Julia-inspired nodes -->
+  <circle cx="225.5" cy="99" r="39" fill="#4EA72E" />
+  <circle cx="400.5" cy="298" r="39" fill="#A02B93" />
+  <circle cx="52.5" cy="298" r="39" fill="#E97132" />
+</svg>
