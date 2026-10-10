@@ -12,6 +12,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-10-10
+
+### Changed
+
+- Updated the bundled SPDX License List snapshot from 3.28.0 to 3.29.0, including
+  new license and exception identifiers, revised license texts, and updates OSI approval
+  metadata.
+- Moved documentation hosting to GitHub Pages, with versioned documentation and pull-request
+  previews.
+
 ## [0.2.0] - 2026-06-03
 
 ### Added
@@ -75,7 +85,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial public version.
 
-[Unreleased]: https://github.com/bslMS/ReuseLicensing.jl/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/bslMS/ReuseLicensing.jl/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/bslMS/ReuseLicensing.jl/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/bslMS/ReuseLicensing.jl/compare/v0.1.3...v0.2.0
 [0.1.3]: https://github.com/bslMS/ReuseLicensing.jl/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/bslMS/ReuseLicensing.jl/compare/v0.1.1...v0.1.2
