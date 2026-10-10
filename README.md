@@ -8,6 +8,7 @@
 </h1>
 
 [![Documentation](https://img.shields.io/badge/docs-stable-blue.svg)](https://bsl-support.de/julia/ReuseLicensing.jl/)
+[![Development documentation](https://img.shields.io/badge/docs-dev-blue.svg)](https://bslms.github.io/ReuseLicensing.jl/dev/)
 [![Build Status](https://github.com/bslMS/ReuseLicensing.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/bslMS/ReuseLicensing.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Codecov](https://codecov.io/gh/bslMS/ReuseLicensing.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/bslMS/ReuseLicensing.jl)
 [![SciML Code Style](https://img.shields.io/static/v1?label=code%20style&message=SciML&color=9558b2&labelColor=389826)](https://github.com/SciML/SciMLStyle)
@@ -16,7 +17,7 @@
 <p align="center">
   <a href="https://reuse.software/spec/">REUSE Specification</a> ·
   <a href="https://spdx.github.io/spdx-spec/v2.3/SPDX-license-expressions/">SPDX License Expressions</a> ·
-  <a href="https://bsl-support.de/julia/ReusePkgTemplates.jl/">ReusePkgTemplates.jl</a> ·
+  <a href="https://bslms.github.io/ReusePkgTemplates.jl/stable/">ReusePkgTemplates.jl</a> ·
   <a href="https://github.com/bslMS/ReuseLicensing.jl/issues">Issues</a> ·
   <a href="https://codeberg.org/bslMS/ReuseLicensing.jl">Codeberg mirror</a>
 </p>
