@@ -15,6 +15,7 @@ path = [
     "CITATION.bib",
     "CODEOWNERS",
     ".JuliaFormatter.toml",
+    "JuliaFormat.toml",
     "Project.toml",
     "Manifest.toml",
     "docs/make.jl",
