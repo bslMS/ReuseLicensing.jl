@@ -1,7 +1,11 @@
 using Pkg
 
-Pkg.develop(Pkg.PackageSpec(path = joinpath(@__DIR__, "..")))
-Pkg.instantiate()
+Pkg.activate(@__DIR__)
+
+cd(@__DIR__) do
+    Pkg.develop(Pkg.PackageSpec(path=".."))
+    Pkg.instantiate()
+end
 
 using ReuseLicensing
 using Documenter
@@ -21,7 +25,7 @@ makedocs(;
     authors = "Guido Wolf Reichert <gwr@bsl-support.de> and contributors",
     sitename = "ReuseLicensing.jl",
     format = Documenter.HTML(;
-        canonical = "https://bsl-support.de/julia/ReuseLicensing.jl",
+        canonical="https://bslms.github.io/ReuseLicensing.jl/stable/",
         edit_link = "main",
         assets = String[],
         footer = "Copyright © 2026 Guido Wolf Reichert and contributors ⋅ " *
@@ -37,3 +41,11 @@ makedocs(;
     ]
 
 )
+
+if get(ENV, "DOCS_DEPLOY", "false") == "true"
+    deploydocs(;
+        repo="github.com/bslMS/ReuseLicensing.jl.git",
+        devbranch="main",
+        push_preview=true
+    )
+end

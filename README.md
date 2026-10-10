@@ -7,7 +7,7 @@
   ReuseLicensing.jl
 </h1>
 
-[![Documentation](https://img.shields.io/badge/docs-stable-blue.svg)](https://bsl-support.de/julia/ReuseLicensing.jl/)
+[![Documentation](https://img.shields.io/badge/docs-stable-blue.svg)](https://bslms.github.io/ReuseLicensing.jl/stable/)
 [![Build Status](https://github.com/bslMS/ReuseLicensing.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/bslMS/ReuseLicensing.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Codecov](https://codecov.io/gh/bslMS/ReuseLicensing.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/bslMS/ReuseLicensing.jl)
 [![SciML Code Style](https://img.shields.io/static/v1?label=code%20style&message=SciML&color=9558b2&labelColor=389826)](https://github.com/SciML/SciMLStyle)
@@ -16,7 +16,7 @@
 <p align="center">
   <a href="https://reuse.software/spec/">REUSE Specification</a> ·
   <a href="https://spdx.github.io/spdx-spec/v2.3/SPDX-license-expressions/">SPDX License Expressions</a> ·
-  <a href="https://bsl-support.de/julia/ReusePkgTemplates.jl/">ReusePkgTemplates.jl</a> ·
+  <a href="https://bslms.github.io/ReusePkgTemplates.jl/stable/">ReusePkgTemplates.jl</a> ·
   <a href="https://github.com/bslMS/ReuseLicensing.jl/issues">Issues</a>
 </p>
 
@@ -97,7 +97,7 @@ has_valid_package_licensing(".") # a boolean convenience wrapper
 
 Legacy packages that are already REUSE-compliant can be adopted to the format that
 ReuseLicensing.jl expects using `adopt_package_licensing!()`. For more information,
-turn to the [stable documentation](https://bsl-support.de/julia/ReuseLicensing.jl/).
+turn to the [stable documentation](https://bslms.github.io/ReuseLicensing.jl/stable/).
 
 <!-- PkgTemplates: REUSE licensing section start -->
 ## Licensing
