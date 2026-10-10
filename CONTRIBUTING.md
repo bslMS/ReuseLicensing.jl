@@ -5,108 +5,104 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 # Contributing
 
-ReuseLicensing.jl is currently developed as a controlled early-stage project.
+Bug reports, failing test cases, documentation fixes, and small improvements are welcome.
+Please discuss larger changes or new APIs in an issue first. The maintainer may decline
+changes outside the project’s scope or that add too much maintenance work.
 
-The preferred forms of contribution at this stage are:
+## Commit sign-off
 
-- issue reports
-- failing test cases
-- documentation corrections
-- small, well-scoped improvements
-
-Pull requests are considered selectively. Larger changes, new APIs, or architectural
-changes should be discussed in an issue before implementation.
-
-All contributions must fit the technical scope, licensing policy, and long-term
-direction of the project. Pull requests may be accepted at the sole discretion of
-the maintainer.
-
-## Developer Certificate of Origin
-
-All commits contributed to this project must be signed off using the Developer
-Certificate of Origin (DCO). By adding a `Signed-off-by` line to a commit message, you
-certify that you have the right to submit the contribution under the applicable license
-terms.
-
-Use:
+Sign off every commit using the Developer Certificate of Origin (DCO):
 
 ```sh
 git commit -s
 ```
 
-This adds a line such as:
+This adds `Signed-off-by: Your Name <your.email@example.org>` to the commit
+message and certifies your right to submit the contribution under the
+applicable license.
 
-```text
-Signed-off-by: Your Name <your.email@example.org>
-```
+## Licensing and REUSE
 
-Contributions without a valid sign-off may be rejected.
+Contribute under the license of the file you modify. Julia source files
+normally use `EUPL-1.2+`, documentation uses `CC-BY-SA-4.0`, and project
+infrastructure uses `0BSD`. Follow the file's SPDX metadata where it differs.
 
-## Licensing of contributions
-
-By submitting a signed-off contribution, you agree that your contribution may be distributed
-under the licensing terms applicable to the files you modify. Code contributions to files
-licensed under `EUPL-1.2+` must be contributed under `EUPL-1.2+`, unless the file-level
-SPDX metadata clearly states a different applicable license.
-
-New Julia source files should normally use:
+New Julia source files should normally include:
 
 ```julia
 # SPDX-FileCopyrightText: <YEAR> <YOUR NAME>
 # SPDX-License-Identifier: EUPL-1.2+
 ```
 
-Documentation files are generally licensed under `CC-BY-SA-4.0`, unless stated
-otherwise by file-level SPDX metadata. Project tooling, configuration files,
-templates, and other project infrastructure files may be licensed under `0BSD`,
-where appropriate.
+All new files need copyright and license information through SPDX headers,
+`.license` sidecars, or `REUSE.toml`, following the
+[REUSE specification](https://reuse.software/spec/).
 
-Do not edit the root `LICENSE` file or the `[reuse_licensing]` table in
-`Project.toml` by hand unless the change is specifically about package-level
-licensing. Package-level declarations should be changed with ReuseLicensing
-tooling so that `LICENSE` and `Project.toml` remain coherent.
+Keep shipped templates under `templates/*.mustache` covered by `REUSE.toml`.
 
-When modifying existing files, follow the existing licensing domain of the file.
+Unless you are changing package-level licensing, leave the root `LICENSE`
+and `[reuse_licensing]` table in `Project.toml` alone. Use ReuseLicensing tooling for
+package-level licensing changes so these declarations stay consistent.
 
-## REUSE compliance
+## Code and tests
 
-This project follows the [REUSE specification](https://reuse.software/spec/). All new
-files must include appropriate SPDX licensing information, either as file headers or, where
-necessary, through `.license` sidecar files or `REUSE.toml`.
+Add or update tests for code changes and documentation for changes to public
+behavior. Keep unrelated formatting changes out of functional pull requests.
 
-Do not add files with unclear or missing copyright or licensing information.
+Use the repository's SciML formatting settings: `.JuliaFormatter.toml` for
+JuliaFormatter.jl and `JuliaFormat.toml` for the Julia VS Code extension.
 
-## Julia collaboration and code style
+## Documentation
 
-This project draws on selected Julia community practices where they fit a
-controlled early-stage project. In particular, contributors should keep pull
-requests small and focused, add or update tests for code changes, and update
-public documentation when changing public APIs.
+Sources are in `docs/src/`; API documentation comes from Julia docstrings.
 
-Pull requests that only reformat code should not also change functionality.
-Conversely, functional changes should avoid unrelated formatting churn. Julia code should
-follow the formatting configuration used in this repository. The intended style follows the
-[SciML Style Guide for Julia](https://docs.sciml.ai/SciMLStyle/) and is enforced via
-JuliaFormatter.jl using `style = "sciml"`.
+### Build locally
 
-## Assets and third-party material
+From the repository root:
 
-Third-party assets, including logos, images, diagrams, screenshots, and other
-media files, must only be added if their source, author or copyright holder,
-license, and modification status are known.
-
-Human-readable attribution should also be added to the relevant attribution file,
-for example:
-
-```text
-docs/src/assets/ATTRIBUTION.md
+```sh
+julia --project=docs docs/make.jl
 ```
 
-Do not add third-party material under assumptions such as "probably free to use"
-or "found online".
+The script prepares the environment and builds HTML in `docs/build/`.
+No deployment credentials are needed. Do not commit the generated files.
 
-## Maintainer discretion
+To preview:
 
-The maintainer may decline contributions even if they are technically correct,
-for example if they increase maintenance burden, complicate licensing, broaden the
-scope too early, or conflict with the intended architecture of the package.
+```sh
+python3 -m http.server 8000 --bind localhost --directory docs/build
+```
+
+Open <http://localhost:8000/>. Rebuild after edits and refresh the browser.
+Stop the server with Ctrl+C.
+
+### Publishing
+
+GitHub Actions builds documentation for pull requests. Branches in this
+repository also get previews at:
+
+`https://bslms.github.io/ReuseLicensing.jl/previews/PR<number>/`
+
+Fork pull requests are built without published previews. Contributors need
+no SSH access or deployment credentials.
+
+Pushes to `main` publish `/dev/`. Release tags matching `v*` publish versioned
+documentation, with `/stable/` pointing to the latest release.
+
+Closing or merging a PR removes its preview from `gh-pages`; the website
+reflects the removal on the next Pages deployment.
+
+### Maintainer setup
+
+Configure GitHub Pages to serve `gh-pages` from `/ (root)`. Publishing uses
+a write-enabled SSH deploy key stored as the `DOCUMENTER_KEY` Actions secret,
+plus the automatically provided `GITHUB_TOKEN`. Never commit credentials.
+
+The workflows are `.github/workflows/documentation.yml` and
+`.github/workflows/doc-preview-cleanup.yml`.
+
+## Third-party material
+
+Record the source, copyright holder, license, and any modifications for
+third-party images and other assets. Include readable attribution where
+appropriate, for example in `docs/src/assets/ATTRIBUTION.md`.
